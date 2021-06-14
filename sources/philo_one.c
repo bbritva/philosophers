@@ -1,15 +1,19 @@
-#include "philo_one.h"
+// #include "philo_one.h"
+#include "../includes/philo_one.h"
 
 int main(int argc, char *argv[])
 {
+	t_data *data;
 
-	(void) argv;
-	if (argc == 4)
-		printf("hi, 4\n");
-	else if (argc == 5)
-		printf("hi, 5\n");
-	else
-		printf("hi, error\n");
-		
-    return (0);
+	data = (t_data *)ft_calloc(1, sizeof(t_data));
+	if (data)
+	{
+		if (parse_params(argc, argv))
+			do_philos(data);
+		else
+			printf("params error\n");
+
+		free(data);
+	}
+	return (0);
 }

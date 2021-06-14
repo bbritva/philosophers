@@ -4,7 +4,7 @@ CCF			=	gcc $(CFLAGS)
 RM			=	rm -f
 CFLAGS		=	-Wall -Wextra -Werror -g -I./includes
 SRC_PATH	=	sources/
-SRC_FILES	=	philo_one.c
+SRC_FILES	=	philo_one.c parse_params.c do_philos.c
 SRCS		=	$(addprefix $(SRC_PATH), $(SRC_FILES))
 OBJS		=	$(SRCS:.c=.o)
 LIB_DIR		=	libft/

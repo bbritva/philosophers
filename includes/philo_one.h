@@ -5,18 +5,19 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
+# include "../libft/libft.h"
 
 
 
-typedef struct			s_line {
-	char			*main_line;
-	char			*curr_line;
-	char			*tmp_line;
-	int 			hist_pos;
-	int 			hist_len;
-	size_t			pos;
-}						t_line;
+typedef struct		s_data {
+	int				philos_count;
+	int				death_time;
+	int				eat_time;
+	int				sleep_time;
+	int				limit_to_eat;
+}					t_data;
 
-int			history_len(char **history);
+int		do_philos(t_data *data);
+int		parse_params(int argc, char *argv[]);
 
 #endif
