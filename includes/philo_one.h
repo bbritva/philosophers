@@ -18,6 +18,6 @@ typedef struct		s_data {
 }					t_data;
 
 int		do_philos(t_data *data);
-int		parse_params(int argc, char *argv[]);
+int		parse_params(int argc, char *argv[], t_data *data);
 
 #endif

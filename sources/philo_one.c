@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (data)
 	{
-		if (parse_params(argc, argv))
+		if (parse_params(argc, argv, data))
 			do_philos(data);
 		else
 			printf("params error\n");

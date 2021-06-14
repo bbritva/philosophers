@@ -1,4 +1,4 @@
-NAME		=	philo_one
+NAME		=	philo
 LIBFT		=	libft.a
 CCF			=	gcc $(CFLAGS)
 RM			=	rm -f
