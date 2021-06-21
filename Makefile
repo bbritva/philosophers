@@ -2,9 +2,9 @@ NAME		=	philo
 LIBFT		=	libft.a
 CCF			=	gcc $(CFLAGS)
 RM			=	rm -f
-CFLAGS		=	-Wall -Wextra -Werror -g -I./includes
+CFLAGS		=	-Wall -Wextra -Werror -g -I./includes -lpthread
 SRC_PATH	=	sources/
-SRC_FILES	=	philo_one.c parse_params.c do_philos.c
+SRC_FILES	=	philo_one.c parse_params.c do_philos.c philo_life.c
 SRCS		=	$(addprefix $(SRC_PATH), $(SRC_FILES))
 OBJS		=	$(SRCS:.c=.o)
 LIB_DIR		=	libft/
