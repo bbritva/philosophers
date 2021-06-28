@@ -10,6 +10,5 @@ void	*born_philo(void *data)
 	printf("Philo #%d: i'm alive\n", params->index);
 	usleep(SLEEP_TIME);
 	printf("Philo #%d: live is over=(\n", params->index);
-	printf("\n");
 	return(NULL);
 }

@@ -13,23 +13,23 @@ int show_data(t_data *data)
 
 int		do_philos(t_data *data)
 {
-	pthread_t	**p;
+	pthread_t	*p;
 	int			i;
 
 	show_data(data);
-	p = (pthread_t **)ft_calloc(data->philos_count, sizeof(pthread_t *));
+	p = (pthread_t *)ft_calloc(data->philos_count, sizeof(pthread_t));
 	if (p)
 	{
 		i = 0;
 		while (i < data->philos_count)
 		{
-			pthread_create(p[i], NULL, born_philo, (void *)data);
+			pthread_create(&p[i], NULL, born_philo, (void *)data);
 			i++;
 		}
 		i = 0;
 		while (i < data->philos_count)
 		{
-			pthread_join(*(p[i]), NULL);
+			pthread_join(p[i], NULL);
 			i++;
 		}
 	}
