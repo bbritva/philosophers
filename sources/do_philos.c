@@ -32,6 +32,7 @@ int		do_philos(t_data *data)
 			pthread_join(p[i], NULL);
 			i++;
 		}
+		free(p);
 	}
 	printf("hi from philos\n");
 	return(0);
