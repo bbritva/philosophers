@@ -11,7 +11,7 @@ void	*born_philo(void *data)
 	my_index = ++params->index;
     pthread_mutex_unlock(&params->mutex);
 	printf("Philo #%d: i'm alive\n", my_index);
-	usleep(SLEEP_TIME * 1000);
+	usleep(params->sleep_time);
 	printf("Philo #%d: live is over=(\n", my_index);
 	return(NULL);
 }
