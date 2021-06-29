@@ -3,12 +3,15 @@
 
 void	*born_philo(void *data)
 {
-	t_data *params;
+	t_data  *params;
+	int     my_index;
 
 	params = (t_data *)data;
-	// params->index++;
-	printf("Philo #%d: i'm alive\n", params->index);
-	usleep(SLEEP_TIME);
-	printf("Philo #%d: live is over=(\n", params->index);
+	pthread_mutex_lock(&params->mutex);
+	my_index = ++params->index;
+    pthread_mutex_unlock(&params->mutex);
+	printf("Philo #%d: i'm alive\n", my_index);
+	usleep(SLEEP_TIME * 1000);
+	printf("Philo #%d: live is over=(\n", my_index);
 	return(NULL);
 }

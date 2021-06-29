@@ -17,6 +17,7 @@ typedef struct		s_data {
 	int				sleep_time;
 	int				limit_to_eat;
 	int				index;
+	pthread_mutex_t mutex;
 }					t_data;
 
 int		do_philos(t_data *data);
