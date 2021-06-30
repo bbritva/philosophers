@@ -2,7 +2,7 @@ NAME		=	philo
 LIBFT		=	libft.a
 CCF			=	gcc $(CFLAGS)
 RM			=	rm -f
-CFLAGS		=	-Wall -Wextra -Werror -g -I./includes -lpthread
+CFLAGS		=	-Wall -Wextra -Werror -g -I./includes
 SRC_PATH	=	sources/
 SRC_FILES	=	philo_one.c parse_params.c do_philos.c philo_life.c
 SRCS		=	$(addprefix $(SRC_PATH), $(SRC_FILES))
@@ -25,7 +25,7 @@ $(NAME):	$(OBJS) $(HDR)
 linux:		$(OBJS) $(HDR)
 			@make bonus -C $(LIB_DIR)
 			@mv $(LIB_DIR)$(LIBFT) $(LIBFT)
-			@$(CCF) $(OBJS) $(LIBFT) -o $(NAME)
+			@$(CCF) $(OBJS) $(LIBFT) -o $(NAME) -lpthread
 			@echo $(NAME) is compiled
 
 clean:

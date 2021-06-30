@@ -15,10 +15,12 @@ int		do_philos(t_data *data)
 {
 	pthread_t	        *p;
 	int			        i;
+	
 
 	show_data(data);
 	p = (pthread_t *)ft_calloc(data->philos_count, sizeof(pthread_t));
-	data->forks = (pthread_mutex_t *) ft_calloc(data->philos_count, sizeof(pthread_mutex_t));
+	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_count,
+		sizeof(pthread_mutex_t));
 	if (p && data->forks)
 	{
 		i = 0;
