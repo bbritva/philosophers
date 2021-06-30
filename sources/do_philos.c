@@ -14,14 +14,17 @@ int show_data(t_data *data)
 int		do_philos(t_data *data)
 {
 	pthread_t	        *p;
+	pthread_t	        killer;
 	int			        i;
 	
 
 	show_data(data);
 	p = (pthread_t *)ft_calloc(data->philos_count, sizeof(pthread_t));
+	data->last_eat_time = (time_t *)ft_calloc(data->philos_count,
+		sizeof(time_t));
 	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_count,
 		sizeof(pthread_mutex_t));
-	if (p && data->forks)
+	if (p && data->forks && data->last_eat_time)
 	{
 		i = 0;
 		while (i < data->philos_count)
@@ -29,6 +32,7 @@ int		do_philos(t_data *data)
 			pthread_create(&p[i], NULL, born_philo, (void *)data);
 			i++;
 		}
+		pthread_create(&killer, NULL, kill_somebody, (void *)data);
 		i = 0;
 		while (i < data->philos_count)
 		{

@@ -23,23 +23,19 @@ void	*born_philo(void *data)
 	int     my_index;
 	time_t	last_eat_time;
 	
-	time(&last_eat_time);
 	params = (t_data *)data;
 	pthread_mutex_lock(&params->mutex);
     my_index = ++params->index;
     pthread_mutex_unlock(&params->mutex);
+	time(&params->last_eat_time[my_index - 1]);
+	params->flag = IS_ALIVE;
     printf("Philo #%d: i'm alive\n", my_index);
-    while (1)
+    while (params->flag & IS_ALIVE)
     {
         get_forks(params, my_index);
         usleep(params->eat_time);
-        if ((last_eat_time - time(0)) < params->death_time)
-        	break ;
-		time(&last_eat_time);
+		time(&params->last_eat_time[my_index - 1]);
 		put_forks(params, my_index);
         usleep(params->sleep_time);
     }
-	usleep(params->sleep_time);
-	printf("Philo #%d: i'm died\n", my_index);
-	return(NULL);
 }
