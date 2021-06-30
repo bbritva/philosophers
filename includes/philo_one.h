@@ -10,14 +10,16 @@
 
 # define SLEEP_TIME 10000
 
-typedef struct		s_data {
-	int				philos_count;
-	int				death_time;
-	int				eat_time;
-	int				sleep_time;
-	int				limit_to_eat;
-	int				index;
-	pthread_mutex_t mutex;
+typedef struct		    s_data {
+	int				    philos_count;
+	int				    death_time;
+	int				    eat_time;
+	int				    sleep_time;
+	int				    limit_to_eat;
+	int				    index;
+	pthread_mutex_t     mutex;
+    pthread_mutex_t     *forks;
+
 }					t_data;
 
 int		do_philos(t_data *data);
