@@ -1,5 +1,13 @@
 #include "philo_one.h"
 
+long delta_time(struct timeval last_eat_time)
+{
+	struct timeval curr_time;
+
+	gettimeofday(&curr_time, 0);
+	return ((curr_time.tv_sec - last_eat_time.tv_sec) * 1000 + (curr_time.tv_usec - last_eat_time.tv_usec) / 1000);
+}
+
 void	*kill_somebody(void *data)
 {
 	t_data	*params;
@@ -15,11 +23,14 @@ void	*kill_somebody(void *data)
 			while (i < params->philos_count)
 			{
 				gettimeofday(&t, NULL);
-				if ((t.tv_usec - params->last_eat_time[i].tv_usec) > params->death_time * 1000 * K)
+				if (delta_time(params->last_eat_time[i]) > params->death_time)
 				{
 					//					params->flag = params->flag & ~(IS_ALIVE);
 					printf("Philo #%d has been shot\n", i);
-					params->flag = 0;
+					pthread_mutex_lock(&params->mutex);
+					params->flag = params->flag & ~(IS_ALIVE);
+					pthread_mutex_unlock(&params->mutex);
+					break ;
 				}
 				i++;
 			}

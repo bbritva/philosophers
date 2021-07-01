@@ -29,10 +29,10 @@ void	*born_philo(void *data)
     while (params->flag & IS_ALIVE)
     {
         get_forks(params, my_index);
-        usleep(params->eat_time * K);
+        usleep(params->eat_time * 1000);
 		gettimeofday(&params->last_eat_time[my_index], NULL);
 		put_forks(params, my_index);
-        usleep(params->sleep_time * K);
+        usleep(params->sleep_time * 1000);
     }
 	return (NULL);
 }

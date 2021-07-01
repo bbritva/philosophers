@@ -20,7 +20,7 @@ typedef struct		    s_data {
 	int				    sleep_time;
 	int				    limit_to_eat;
 	int				    index;
-	volatile int	    flag;
+	int	    			flag;
 	pthread_mutex_t     mutex;
     pthread_mutex_t     *forks;
     struct timeval		*last_eat_time;
