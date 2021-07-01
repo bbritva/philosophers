@@ -3,15 +3,13 @@
 
 int get_forks(t_data *params, int i)
 {
-    (void) params;
-    printf("Philo #%d: get forks\n", i);
+    printf("Philo #%d: GET forks, alive = %d\n %ld\n", i, params->flag, params->last_eat_time[i].tv_usec);
     return (0);
 }
 
 int put_forks(t_data *params, int i)
 {
-    (void) params;
-    printf("Philo #%d: get forks\n", i);
+	printf("Philo #%d: PUT forks, alive = %d\n", i, params->flag);
     return (0);
 }
 
@@ -21,21 +19,20 @@ void	*born_philo(void *data)
 {
 	t_data  *params;
 	int     my_index;
-	time_t	last_eat_time;
-	
+
 	params = (t_data *)data;
 	pthread_mutex_lock(&params->mutex);
-    my_index = ++params->index;
+    my_index = params->index++;
     pthread_mutex_unlock(&params->mutex);
-	time(&params->last_eat_time[my_index - 1]);
-	params->flag = IS_ALIVE;
+	gettimeofday(&params->last_eat_time[my_index], NULL);
     printf("Philo #%d: i'm alive\n", my_index);
     while (params->flag & IS_ALIVE)
     {
         get_forks(params, my_index);
-        usleep(params->eat_time);
-		time(&params->last_eat_time[my_index - 1]);
+        usleep(params->eat_time * K);
+		gettimeofday(&params->last_eat_time[my_index], NULL);
 		put_forks(params, my_index);
-        usleep(params->sleep_time);
+        usleep(params->sleep_time * K);
     }
+	return (NULL);
 }

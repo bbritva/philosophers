@@ -20,12 +20,13 @@ int		do_philos(t_data *data)
 
 	show_data(data);
 	p = (pthread_t *)ft_calloc(data->philos_count, sizeof(pthread_t));
-	data->last_eat_time = (time_t *)ft_calloc(data->philos_count,
-		sizeof(time_t));
+	data->last_eat_time = (struct timeval *)ft_calloc(data->philos_count,
+		sizeof(struct timeval));
 	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_count,
 		sizeof(pthread_mutex_t));
 	if (p && data->forks && data->last_eat_time)
 	{
+		data->flag = IS_ALIVE;
 		i = 0;
 		while (i < data->philos_count)
 		{
@@ -39,6 +40,7 @@ int		do_philos(t_data *data)
 			pthread_join(p[i], NULL);
 			i++;
 		}
+		pthread_join(killer, NULL);
 		free(p);
 	}
 	printf("hi from philos\n");

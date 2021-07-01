@@ -6,9 +6,11 @@
 # include <string.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
 # include "../libft/libft.h"
 
 # define SLEEP_TIME 10000
+# define K 100
 # define IS_ALIVE 1
 
 typedef struct		    s_data {
@@ -18,16 +20,16 @@ typedef struct		    s_data {
 	int				    sleep_time;
 	int				    limit_to_eat;
 	int				    index;
-	int				    flag;
+	volatile int	    flag;
 	pthread_mutex_t     mutex;
     pthread_mutex_t     *forks;
-    time_t				*last_eat_time;
+    struct timeval		*last_eat_time;
 
 }					t_data;
 
 int		do_philos(t_data *data);
 int		parse_params(int argc, char *argv[], t_data *data);
 void	*born_philo(void *data);
-void	*killer(void *data);
+void	*kill_somebody(void *data);
 
 #endif
