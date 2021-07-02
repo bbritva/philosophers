@@ -3,7 +3,7 @@
 
 int get_forks(t_data *params, int i)
 {
-    printf("Philo #%d: GET forks, alive = %d\n %ld\n", i, params->flag, params->last_eat_time[i].tv_usec);
+    printf("Philo #%d: GET forks, alive = %d\n", i, params->flag);
     return (0);
 }
 
@@ -15,17 +15,20 @@ int put_forks(t_data *params, int i)
 
 
 
-void	*born_philo(void *data)
+void	*philos_life(void *data)
 {
-	t_data  *params;
-	int     my_index;
+	t_data  		*params;
+	t_philo  		philo;
+	int     		my_index;
 
 	params = (t_data *)data;
 	pthread_mutex_lock(&params->mutex);
     my_index = params->index++;
-    pthread_mutex_unlock(&params->mutex);
+	pthread_mutex_unlock(&params->mutex);
+	philo = params->philos[my_index];
 	gettimeofday(&params->last_eat_time[my_index], NULL);
-    printf("Philo #%d: i'm alive\n", my_index);
+	params->is_started[my_index] = 1;
+	printf("Philo #%d: i'm alive\n", my_index);
     while (params->flag & IS_ALIVE)
     {
         get_forks(params, my_index);

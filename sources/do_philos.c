@@ -13,34 +13,27 @@ int show_data(t_data *data)
 
 int		do_philos(t_data *data)
 {
-	pthread_t	        *p;
-	int			        i;
+	int		i;
 	
 
 	show_data(data);
-	p = (pthread_t *)ft_calloc(data->philos_count, sizeof(pthread_t));
-	data->last_eat_time = (struct timeval *)ft_calloc(data->philos_count,
-		sizeof(struct timeval));
+	data->philos = (t_philo *)ft_calloc(data->philos_count, sizeof (t_philo));
 	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_count,
 		sizeof(pthread_mutex_t));
-	if (p && data->forks && data->last_eat_time)
+	if (data->forks && data->philos)
 	{
 		data->flag = IS_ALIVE;
-		i = 0;
-		while (i < data->philos_count)
-		{
-			pthread_create(&p[i], NULL, born_philo, (void *)data);
-			i++;
-		}
-//		pthread_create(&killer, NULL, kill_somebody, (void *)data);
+		i = -1;
+		while (++i < data->philos_count)
+			pthread_create(&data->philos[i].thread, NULL, philos_life,
+						   (void *) data);
+		usleep(1000);
 		kill_somebody(data);
 		i = 0;
 		while (i < data->philos_count)
-		{
-			pthread_join(p[i], NULL);
-			i++;
-		}
-		free(p);
+			pthread_join(data->philos[i++].thread, NULL);
+		free(data->philos);
+		free(data->forks);
 	}
 	printf("hi from philos\n");
 	return(0);

@@ -38,7 +38,7 @@ int		parse_params(int argc, char *argv[], t_data *data)
 	if (argc < 5 || argc > 6 || !check_params(argv))
 		return(0);
 	data->philos_count = ft_atoi(argv[1]);
-	if (data->philos_count < 2)
+	if (data->philos_count < 1)
 		return (0);
 	data->death_time = ft_atoi(argv[2]);
 	if (data->death_time < 2)
