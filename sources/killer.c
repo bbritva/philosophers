@@ -23,8 +23,8 @@ void	*kill_somebody(void *data)
 		{
 			while (i < params->philos_count)
 			{
-				delta = delta_time(params->last_eat_time[i]);
-				if (delta > params->death_time && params->is_started[i])
+				delta = delta_time(params->philos[i].last_eat_time);
+				if (delta > params->death_time && params->philos[i].is_started)
 				{
 					params->flag = params->flag & ~(IS_ALIVE);
 					printf("Philo #%d has been shot\n delta = %ld\n", i, delta);

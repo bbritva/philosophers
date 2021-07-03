@@ -16,9 +16,9 @@
 typedef struct			s_philo {
 	int 				index;
 	pthread_t 			thread;
-	struct timeval		*last_eat_time;
+	struct timeval		last_eat_time;
 	int 				eat_count;
-
+	char	    		is_started;
 }						t_philo;
 
 typedef struct		    s_data {
@@ -31,9 +31,8 @@ typedef struct		    s_data {
 	int	    			flag;
 	struct timeval		start_time;
 	t_philo				*philos;
-	char	    		*is_started;
-	pthread_mutex_t     mutex;
-	pthread_mutex_t     *forks;
+	pthread_mutex_t		mutex;
+	pthread_mutex_t		*forks;
 
 }					t_data;
 

@@ -11,17 +11,27 @@ int show_data(t_data *data)
 	return(0);
 }
 
+int		init_forks(pthread_mutex_t *forks, int count)
+{
+	while(count--)
+	{
+		pthread_mutex_init(&forks[count], NULL);
+	}
+	return (0);
+}
+
 int		do_philos(t_data *data)
 {
 	int		i;
-	
 
 	show_data(data);
+	pthread_mutex_init(&data->mutex, NULL);
 	data->philos = (t_philo *)ft_calloc(data->philos_count, sizeof (t_philo));
 	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_count,
 		sizeof(pthread_mutex_t));
 	if (data->forks && data->philos)
 	{
+		init_forks(data->forks, data->philos_count);
 		data->flag = IS_ALIVE;
 		i = -1;
 		while (++i < data->philos_count)
