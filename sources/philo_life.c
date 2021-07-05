@@ -25,13 +25,17 @@ void	*philos_life(void *data)
     my_index = params->index++;
 	pthread_mutex_unlock(&params->mutex);
 	gettimeofday(&params->philos[my_index].last_eat_time, NULL);
-	params->philos[my_index].is_started = 1;
 	printf("Philo #%d: i'm alive\n", my_index);
-    while (params->flag & IS_ALIVE)
+	params->philos[my_index].is_started = 1;
+	if (params->limit_to_eat)
+		params->philos[my_index].eat_count = params->limit_to_eat;
+	while ((params->flag & IS_ALIVE) && (!params->limit_to_eat || \
+		params->philos[my_index].eat_count))
     {
         get_forks(params, my_index);
         usleep(params->eat_time * KOEF);
 		gettimeofday(&params->philos[my_index].last_eat_time, NULL);
+		params->philos[my_index].eat_count--;
 		put_forks(params, my_index);
         usleep(params->sleep_time * KOEF);
     }

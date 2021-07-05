@@ -32,8 +32,6 @@ void	*kill_somebody(void *data)
 				}
 				i++;
 			}
-			if (!(params->flag & IS_ALIVE))
-				break ;
 		}
 	}
 	return (0);

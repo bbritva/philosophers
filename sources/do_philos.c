@@ -41,10 +41,12 @@ int		do_philos(t_data *data)
 			pthread_create(&data->philos[i].thread, NULL, philos_life,
 						   (void *) data);
 		pthread_create(&killer, NULL, kill_somebody, (void *) data);
+		pthread_join(killer, NULL);
 		i = 0;
 		while (i < data->philos_count)
+		{
 			pthread_join(data->philos[i++].thread, NULL);
-		pthread_join(killer, NULL);
+		}
 		free(data->philos);
 		free(data->forks);
 	}
