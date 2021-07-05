@@ -19,15 +19,22 @@ int		init_forks(t_data *data)
 	while(count--)
 	{
 		pthread_mutex_init(&data->forks[count], NULL);
+		printf("fork #%d inited\n", count);
 	}
-	while (count < data->philos_count)
+	while (++count < data->philos_count)
 	{
 		data->philos[count].left_fork = &data->forks[count];
+		printf("fork %d in philo's %d left hand\n", count, count);
 		if (count)
+		{
 			data->philos[count].right_fork = &data->forks[count - 1];
+			printf("fork %d in philo's %d right hand\n", count - 1, count);
+		}
 		else
+		{
 			data->philos[count].right_fork = &data->forks[data->philos_count - 1];
-		count++;
+			printf("fork %d in philo's %d right hand\n", data->philos_count - 1, count);
+		}
 	}
 	return (0);
 }
@@ -48,7 +55,6 @@ int		do_philos(t_data *data)
 		data->flag = IS_ALIVE;
 		i = -1;
 		gettimeofday(&data->start_time, NULL);
-		printf("%ld\n", delta_time(data->start_time));
 		while (++i < data->philos_count)
 			pthread_create(&data->philos[i].thread, NULL, philos_life,
 						   (void *) data);

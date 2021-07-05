@@ -3,12 +3,18 @@
 
 int get_forks(t_data *params, int i)
 {
-    printf("Philo #%d: GET forks, alive = %d\n", i, params->flag);
+	pthread_mutex_lock(&params->mutex);
+	pthread_mutex_lock(params->philos[i].right_fork);
+	pthread_mutex_lock(params->philos[i].left_fork);
+	pthread_mutex_unlock(&params->mutex);
+	printf("Philo #%d: GET forks, alive = %d\n", i, params->flag);
     return (0);
 }
 
 int put_forks(t_data *params, int i)
 {
+	pthread_mutex_unlock(params->philos[i].right_fork);
+	pthread_mutex_unlock(params->philos[i].left_fork);
 	printf("Philo #%d: PUT forks, alive = %d\n", i, params->flag);
     return (0);
 }
