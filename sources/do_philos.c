@@ -35,10 +35,11 @@ int		do_philos(t_data *data)
 		init_forks(data->forks, data->philos_count);
 		data->flag = IS_ALIVE;
 		i = -1;
+		gettimeofday(&data->start_time, NULL);
+		printf("%ld\n", delta_time(data->start_time));
 		while (++i < data->philos_count)
 			pthread_create(&data->philos[i].thread, NULL, philos_life,
 						   (void *) data);
-		usleep(1000);
 		pthread_create(&killer, NULL, kill_somebody, (void *) data);
 		i = 0;
 		while (i < data->philos_count)

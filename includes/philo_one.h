@@ -10,11 +10,10 @@
 # include "../libft/libft.h"
 
 # define SLEEP_TIME 10000
-# define K 100
+# define KOEF 1000
 # define IS_ALIVE 1
 
 typedef struct			s_philo {
-	int 				index;
 	pthread_t 			thread;
 	struct timeval		last_eat_time;
 	int 				eat_count;
@@ -40,5 +39,6 @@ int		do_philos(t_data *data);
 int		parse_params(int argc, char *argv[], t_data *data);
 void	*philos_life(void *data);
 void	*kill_somebody(void *data);
+long	delta_time(struct timeval last_eat_time);
 
 #endif

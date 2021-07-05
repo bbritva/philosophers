@@ -30,10 +30,10 @@ void	*philos_life(void *data)
     while (params->flag & IS_ALIVE)
     {
         get_forks(params, my_index);
-        usleep(params->eat_time * 1000);
+        usleep(params->eat_time * KOEF);
 		gettimeofday(&params->philos[my_index].last_eat_time, NULL);
 		put_forks(params, my_index);
-        usleep(params->sleep_time * 1000);
+        usleep(params->sleep_time * KOEF);
     }
 	return (NULL);
 }
