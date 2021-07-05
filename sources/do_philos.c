@@ -11,11 +11,23 @@ int show_data(t_data *data)
 	return(0);
 }
 
-int		init_forks(pthread_mutex_t *forks, int count)
+int		init_forks(t_data *data)
 {
+	int count;
+
+	count = data->philos_count;
 	while(count--)
 	{
-		pthread_mutex_init(&forks[count], NULL);
+		pthread_mutex_init(&data->forks[count], NULL);
+	}
+	while (count < data->philos_count)
+	{
+		data->philos[count].left_fork = &data->forks[count];
+		if (count)
+			data->philos[count].right_fork = &data->forks[count - 1];
+		else
+			data->philos[count].right_fork = &data->forks[data->philos_count - 1];
+		count++;
 	}
 	return (0);
 }
@@ -32,7 +44,7 @@ int		do_philos(t_data *data)
 		sizeof(pthread_mutex_t));
 	if (data->forks && data->philos)
 	{
-		init_forks(data->forks, data->philos_count);
+		init_forks(data);
 		data->flag = IS_ALIVE;
 		i = -1;
 		gettimeofday(&data->start_time, NULL);
@@ -47,8 +59,8 @@ int		do_philos(t_data *data)
 			pthread_join(data->philos[i++].thread, NULL);
 		}
 		pthread_join(killer, NULL);
-		free(data->philos);
-		free(data->forks);
+//		free(data->forks);
+//		free(data->philos);
 	}
 	printf("hi from philos\n");
 	return(0);
