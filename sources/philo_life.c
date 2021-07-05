@@ -39,5 +39,6 @@ void	*philos_life(void *data)
 		put_forks(params, my_index);
         usleep(params->sleep_time * KOEF);
     }
+	params->flag = params->flag & ~(IS_ALIVE);
 	return (NULL);
 }
