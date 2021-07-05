@@ -18,22 +18,20 @@ int put_forks(t_data *params, int i)
 void	*philos_life(void *data)
 {
 	t_data  		*params;
-	t_philo  		philo;
 	int     		my_index;
 
 	params = (t_data *)data;
 	pthread_mutex_lock(&params->mutex);
     my_index = params->index++;
 	pthread_mutex_unlock(&params->mutex);
-	philo = params->philos[my_index];
-	gettimeofday(&philo.last_eat_time, NULL);
-	philo.is_started = 1;
+	gettimeofday(&params->philos[my_index].last_eat_time, NULL);
+	params->philos[my_index].is_started = 1;
 	printf("Philo #%d: i'm alive\n", my_index);
     while (params->flag & IS_ALIVE)
     {
         get_forks(params, my_index);
         usleep(params->eat_time * 1000);
-		gettimeofday(&philo.last_eat_time, NULL);
+		gettimeofday(&params->philos[my_index].last_eat_time, NULL);
 		put_forks(params, my_index);
         usleep(params->sleep_time * 1000);
     }

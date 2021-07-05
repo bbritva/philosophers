@@ -18,19 +18,16 @@ void	*kill_somebody(void *data)
 	if (data)
 	{
 		params = (t_data *)data;
-		i = 0;
 		while(params->flag & IS_ALIVE)
 		{
+			i = 0;
 			while (i < params->philos_count)
 			{
 				delta = delta_time(params->philos[i].last_eat_time);
 				if (delta > params->death_time && params->philos[i].is_started)
 				{
+					printf("Philo #%d killed\n delta = %ld\n is started = %d\n", i, delta, params->philos[i].is_started);
 					params->flag = params->flag & ~(IS_ALIVE);
-					printf("Philo #%d has been shot\n delta = %ld\n", i, delta);
-//					pthread_mutex_lock(&params->mutex);
-//					params->flag = params->flag & ~(IS_ALIVE);
-//					pthread_mutex_unlock(&params->mutex);
 					break ;
 				}
 				i++;

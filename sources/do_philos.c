@@ -22,7 +22,8 @@ int		init_forks(pthread_mutex_t *forks, int count)
 
 int		do_philos(t_data *data)
 {
-	int		i;
+	int			i;
+	pthread_t 	killer;
 
 	show_data(data);
 	pthread_mutex_init(&data->mutex, NULL);
@@ -38,10 +39,11 @@ int		do_philos(t_data *data)
 			pthread_create(&data->philos[i].thread, NULL, philos_life,
 						   (void *) data);
 		usleep(1000);
-		kill_somebody(data);
+		pthread_create(&killer, NULL, kill_somebody, (void *) data);
 		i = 0;
 		while (i < data->philos_count)
 			pthread_join(data->philos[i++].thread, NULL);
+		pthread_join(killer, NULL);
 		free(data->philos);
 		free(data->forks);
 	}
