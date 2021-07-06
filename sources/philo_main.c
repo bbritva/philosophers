@@ -1,5 +1,5 @@
 // #include "philo_one.h"
-#include "../includes/philo_one.h"
+#include "../includes/philo_main.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	if (data)
 	{
 		if (parse_params(argc, argv, data))
-			do_philos(data);
+			start_philos(data);
 		else
 			printf("params error\n");
 
