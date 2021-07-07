@@ -3,8 +3,16 @@
 
 int get_forks(t_philo *me)
 {
-	pthread_mutex_lock(me->right_fork);
-	pthread_mutex_lock(me->left_fork);
+	if (me->index % 2)
+	{
+		pthread_mutex_lock(me->right_fork);
+		pthread_mutex_lock(me->left_fork);
+	}
+	else
+	{
+		pthread_mutex_lock(me->left_fork);
+		pthread_mutex_lock(me->right_fork);
+	}
 	printf("Philo #%d: GET forks\n", me->index);
     return (0);
 }
