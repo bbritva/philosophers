@@ -53,8 +53,8 @@ int 	init_philos(t_data *data, t_philo ***philos)
 		i = -1;
 		while (++i < data->philos_count)
 		{
-			*philos[i] = (t_philo *) ft_calloc(1, sizeof (t_philo));
-			if (*philos[i])
+			(*philos)[i] = (t_philo *) ft_calloc(1, sizeof (t_philo));
+			if ((*philos)[i])
 			{
 				(*philos)[i]->index = i;
 				(*philos)[i]->params = data;
