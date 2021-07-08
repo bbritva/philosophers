@@ -21,7 +21,7 @@
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
 # define PUT_LEFT "has put a left fork"
-# define DEAD "is dead"
+# define DEAD "\x1B[36mis dead-------------------------------------\x1B[0m"
 
 
 typedef struct		    s_data {
