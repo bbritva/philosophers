@@ -7,7 +7,6 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include "../libft/libft.h"
 
 # define SLEEP_TIME 10000
 # define KOEF 1000
@@ -44,7 +43,6 @@ typedef struct		    s_data {
 typedef struct			s_philo {
 	pthread_t 			thread;
 	struct timeval		last_eat_time;
-	int 				eat_count;
 	int				    index;
 	char				flag;
 	t_data				*params;
@@ -60,6 +58,8 @@ void	*philosopher(void *data);
 long	delta_time(struct timeval last_eat_time);
 int		put_message(t_philo *philo, char *message);
 int 	delay(long sleep_time);
+int		ft_atoi(char *str);
+void	*ft_calloc(size_t count, size_t size);
 
 
 #endif
