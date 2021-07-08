@@ -17,11 +17,14 @@ void	*killer(void *data)
 				(philos[i]->last_eat_time) > philos[i]->params->death_time)
 			{
 				pthread_mutex_lock(&philos[i]->params->death_mutex);
-				return (put_message(philos[i], DEAD));
+				put_message(philos[i], DEAD);
+				pthread_mutex_lock(&philos[i]->params->mutex);
+				return (0);
 			}
 			if (philos[0]->params->full_cnt == philos[0]->params->philos_cnt)
 			{
 				pthread_mutex_lock(&philos[i]->params->death_mutex);
+				pthread_mutex_lock(&philos[i]->params->mutex);
 				printf(ALL_FULL);
 				return (0);
 			}
