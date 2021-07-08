@@ -11,7 +11,7 @@ void	*killer(void *data)
 	while (1)
 	{
 		i = -1;
-		while (++(i) < philos[0]->params->philos_count)
+		while (++i < philos[0]->params->philos_count)
 		{
 			if (philos[i]->flag & IS_STARTED && \
             delta_time(philos[i]->last_eat_time) >

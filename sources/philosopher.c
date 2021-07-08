@@ -36,9 +36,11 @@ void	*philosopher(void *data)
 	eat_count = 0;
 	me = (t_philo *)data;
 	gettimeofday(&me->last_eat_time, NULL);
-	me->flag = me->flag & IS_STARTED;
+	me->flag = me->flag | IS_STARTED;
 	while (!me->eat_count || eat_count < me->eat_count)
 	{
+		pthread_mutex_lock(&me->params->death_mutex);
+		pthread_mutex_unlock(&me->params->death_mutex);
 		get_forks(me);
 		put_message(me, EAT);
 		delay(me->params->eat_time);
