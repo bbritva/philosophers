@@ -1,5 +1,21 @@
 #include "philo_main.h"
 
+void	*death(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->params->death_mutex);
+	put_message(philo, DEAD);
+	pthread_mutex_lock(&philo->params->mutex);
+	return (0);
+}
+
+void	*full(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->params->death_mutex);
+	pthread_mutex_lock(&philo->params->mutex);
+	printf(ALL_FULL);
+	return (0);
+}
+
 void	*killer(void *data)
 {
 	t_philo		**philos;
@@ -15,19 +31,9 @@ void	*killer(void *data)
 		{
 			if (philos[i]->flag & STARTED && delta_time
 				(philos[i]->last_eat_time) > philos[i]->params->death_time)
-			{
-				pthread_mutex_lock(&philos[i]->params->death_mutex);
-				put_message(philos[i], DEAD);
-				pthread_mutex_lock(&philos[i]->params->mutex);
-				return (0);
-			}
+				return (death(philos[i]));
 			if (philos[0]->params->full_cnt == philos[0]->params->philos_cnt)
-			{
-				pthread_mutex_lock(&philos[i]->params->death_mutex);
-				pthread_mutex_lock(&philos[i]->params->mutex);
-				printf(ALL_FULL);
-				return (0);
-			}
+				return (full(philos[i]));
 		}
 	}
 }

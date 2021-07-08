@@ -1,7 +1,7 @@
 NAME		=	philo
 CCF			=	gcc $(CFLAGS)
 RM			=	rm -f
-CFLAGS		=	-Wall -Wextra -Werror -g -I./includes
+CFLAGS		=	-Wall -Wextra -Werror -g3 -I./includes -fsanitize=address
 SRC_PATH	=	sources/
 SRC_FILES	=	philo_main.c parse_params.c start_philos.c philosopher.c philo_utils.c philos_killer.c utils.c
 SRCS		=	$(addprefix $(SRC_PATH), $(SRC_FILES))
