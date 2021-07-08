@@ -36,7 +36,7 @@ void	*philosopher(void *data)
 	eat_count = 0;
 	me = (t_philo *)data;
 	gettimeofday(&me->last_eat_time, NULL);
-	printf("Philo #%d: i'm alive\n", me->index);
+	me->flag = me->flag & IS_STARTED;
 	while (!me->eat_count || eat_count < me->eat_count)
 	{
 		get_forks(me);
