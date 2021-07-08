@@ -72,7 +72,7 @@ int		start_philos(t_data *data)
 {
 	int			i;
 	t_philo		**philos;
-	pthread_t	philos_killer;
+//	pthread_t	philos_killer;
 
 	if (!init_philos(data, &philos))
 		return (0);
@@ -82,8 +82,9 @@ int		start_philos(t_data *data)
 		pthread_create(&philos[i]->thread, NULL, philosopher,
 					   (void *)philos[i]);
 	i = -1;
-	pthread_create(&philos_killer, NULL, killer, (void *)philos);
-	pthread_join(philos_killer, NULL);
+//	pthread_create(&philos_killer, NULL, killer, (void *)philos);
+//	pthread_join(philos_killer, NULL);
+	killer(philos);
 	while (++i < data->philos_count)
 		pthread_detach(philos[i]->thread);
 //	free(data->forks);

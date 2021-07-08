@@ -25,6 +25,7 @@ int delay(long sleep_time)
 	struct timeval start_time;
 
 	gettimeofday(&start_time, NULL);
-	while (delta_time(start_time) < sleep_time);
+	while (delta_time(start_time) < sleep_time)
+		usleep(1);
 	return (0);
 }
