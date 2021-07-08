@@ -21,6 +21,12 @@ void	*killer(void *data)
 				put_message(philos[i], DEAD);
 				return (0);
 			}
+			if (philos[0]->params->full_count == philos[0]->params->philos_count)
+			{
+				pthread_mutex_lock(&philos[i]->params->death_mutex);
+				printf(ALL_FULL);
+				return (0);
+			}
 		}
 	}
 }

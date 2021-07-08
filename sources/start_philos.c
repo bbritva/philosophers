@@ -62,7 +62,6 @@ int 	init_philos(t_data *data, t_philo ***philos)
 			}
 		}
 		init_forks(data, philos);
-		data->flag = IS_ALIVE;
 		return (1);
 	}
 	return (0);

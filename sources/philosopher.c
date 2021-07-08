@@ -37,7 +37,7 @@ void	*philosopher(void *data)
 	me = (t_philo *)data;
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | IS_STARTED;
-	while (!me->eat_count || eat_count < me->eat_count)
+	while (!me->params->limit_to_eat || eat_count < me->params->limit_to_eat)
 	{
 		pthread_mutex_lock(&me->params->death_mutex);
 		pthread_mutex_unlock(&me->params->death_mutex);
@@ -51,6 +51,8 @@ void	*philosopher(void *data)
 		delay(me->params->sleep_time);
 		put_message(me, THINK);
 	}
-	me->params->flag = me->params->flag & ~(IS_ALIVE);
+	put_message(me, FULL);
+	me->flag = me->flag | IS_FULL;
+	me->params->full_count++;
 	return (NULL);
 }
