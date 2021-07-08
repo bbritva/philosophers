@@ -1,40 +1,19 @@
 #include "philo_main.h"
 
-int	show_data(t_data *data)
-{
-	printf("philos i = %d\n", data->philos_cnt);
-	printf("death time = %d\n", data->death_time);
-	printf("eat time = %d\n", data->eat_time);
-	printf("sleep time = %d\n", data->sleep_time);
-	printf("eat limit = %d\n", data->limit_to_eat);
-	return (0);
-}
-
 int	init_forks(t_data *data, t_philo ***philos)
 {
 	int	count;
 
 	count = data->philos_cnt;
 	while (count--)
-	{
 		pthread_mutex_init(&data->forks[count], NULL);
-		printf("fork #%d inited\n", count);
-	}
 	while (++count < data->philos_cnt)
 	{
 		(*philos)[count]->left_fork = &data->forks[count];
-		printf("fork %d in philo's %d left hand\n", count, count);
 		if (count)
-		{
 			(*philos)[count]->right_fork = &data->forks[count - 1];
-			printf("fork %d in philo's %d right hand\n", count - 1, count);
-		}
 		else
-		{
 			(*philos)[count]->right_fork = &data->forks[data->philos_cnt - 1];
-			printf("fork %d in philo's %d right hand\n",
-				data->philos_cnt - 1, count);
-		}
 	}
 	return (0);
 }
@@ -43,7 +22,6 @@ int	init_philos(t_data *data, t_philo ***philos)
 {
 	int	i;
 
-	show_data(data);
 	pthread_mutex_init(&data->mutex, NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
 	*philos = (t_philo **)ft_calloc(data->philos_cnt, sizeof (t_philo *));
