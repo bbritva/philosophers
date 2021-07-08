@@ -87,7 +87,7 @@ int		start_philos(t_data *data)
 	killer(philos);
 	while (++i < data->philos_count)
 		pthread_detach(philos[i]->thread);
-//	free(data->forks);
-//	free(data->philos);
+	free(data->forks);
+	free(philos);
 	return(1);
 }

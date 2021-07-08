@@ -40,8 +40,8 @@ void	*philosopher(void *data)
 	while (1)
 	{
 		get_forks(me);
-//		pthread_mutex_lock(&me->params->death_mutex);
-//		pthread_mutex_unlock(&me->params->death_mutex);
+		pthread_mutex_lock(&me->params->death_mutex);
+		pthread_mutex_unlock(&me->params->death_mutex);
 		put_message(me, EAT);
 		gettimeofday(&me->last_eat_time, NULL);
 		delay(me->params->eat_time);
