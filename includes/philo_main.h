@@ -1,5 +1,5 @@
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_MAIN_H
+# define PHILO_MAIN_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -8,11 +8,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define SLEEP_TIME 10000
-# define KOEF 1000
-# define IS_ALIVE 1
 # define IS_FULL 2
-# define IS_STARTED 1
+# define STARTED 1
 # define TAKE_RIGHT "has taken a right fork"
 # define TAKE_LEFT "has taken a left fork"
 # define PUT_RIGHT "has put a right fork"
@@ -25,25 +22,24 @@
 # define DEAD "\x1B[36mis dead-------------------------------------\x1B[0m"
 # define ALL_FULL "\x1B[36m all philos is full-----------------------\x1B[0m\n"
 
-
-typedef struct		    s_data {
-	int				    philos_count;
-	int				    death_time;
-	int				    eat_time;
-	int				    sleep_time;
-	int				    limit_to_eat;
-	int	    			full_count;
+typedef struct s_data {
+	int					philos_cnt;
+	int					death_time;
+	int					eat_time;
+	int					sleep_time;
+	int					limit_to_eat;
+	int					full_cnt;
 	struct timeval		start_time;
 	pthread_mutex_t		mutex;
 	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		*forks;
 
-}					t_data;
+}						t_data;
 
-typedef struct			s_philo {
-	pthread_t 			thread;
+typedef struct s_philo {
+	pthread_t			thread;
 	struct timeval		last_eat_time;
-	int				    index;
+	int					index;
 	char				flag;
 	t_data				*params;
 	pthread_mutex_t		*left_fork;
@@ -56,10 +52,9 @@ int		parse_params(int argc, char *argv[], t_data *data);
 void	*killer(void *data);
 void	*philosopher(void *data);
 long	delta_time(struct timeval last_eat_time);
-int		put_message(t_philo *philo, char *message);
-int 	delay(long sleep_time);
+void	*put_message(t_philo *philo, char *message);
+int		delay(long sleep_time);
 int		ft_atoi(char *str);
 void	*ft_calloc(size_t count, size_t size);
-
 
 #endif

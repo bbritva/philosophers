@@ -1,9 +1,8 @@
-// #include "philo_one.h"
-#include "../includes/philo_main.h"
+#include "philo_main.h"
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_data *data;
+	t_data	*data;
 
 	data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (data)
@@ -12,7 +11,6 @@ int main(int argc, char *argv[])
 			start_philos(data);
 		else
 			printf("params error\n");
-
 		free(data);
 	}
 	return (0);

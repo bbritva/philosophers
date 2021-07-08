@@ -1,13 +1,12 @@
-// #include "philo_one.h"
-#include "../includes/philo_main.h"
+#include "philo_main.h"
 
-int		is_int(char *line)
+int	is_int(char *line)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (!line)
-		return(0);
+		return (0);
 	while ((line[i] < 14 && line[i] > 8) || line[i] == 32)
 		i++;
 	while (line[i] == '+' || line[i] == '-')
@@ -15,14 +14,14 @@ int		is_int(char *line)
 	while (line[i] >= '0' && line[i] <= '9')
 		i++;
 	return (!line[i]);
-	
 }
 
-int		check_params(char* argv[])
+int	check_params(char *argv[])
 {
-	int		i;
+	int	i;
+
 	if (!argv)
-		return(0);
+		return (0);
 	i = 1;
 	while (argv[i])
 	{
@@ -33,12 +32,12 @@ int		check_params(char* argv[])
 	return (1);
 }
 
-int		parse_params(int argc, char *argv[], t_data *data)
+int	parse_params(int argc, char *argv[], t_data *data)
 {
 	if (argc < 5 || argc > 6 || !check_params(argv))
-		return(0);
-	data->philos_count = ft_atoi(argv[1]);
-	if (data->philos_count < 1)
+		return (0);
+	data->philos_cnt = ft_atoi(argv[1]);
+	if (data->philos_cnt < 1)
 		return (0);
 	data->death_time = ft_atoi(argv[2]);
 	if (data->death_time < 2)
