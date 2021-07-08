@@ -12,6 +12,15 @@
 # define SLEEP_TIME 10000
 # define KOEF 1000
 # define IS_ALIVE 1
+# define TAKE_RIGHT "has taken a right fork"
+# define TAKE_LEFT "has taken a left fork"
+# define PUT_RIGHT "has put a right fork"
+# define PUT_LEFT "has put a left fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define PUT_LEFT "has put a left fork"
+
 
 typedef struct		    s_data {
 	int				    philos_count;
@@ -19,10 +28,10 @@ typedef struct		    s_data {
 	int				    eat_time;
 	int				    sleep_time;
 	int				    limit_to_eat;
-	int				    index;
 	int	    			flag;
 	struct timeval		start_time;
 	pthread_mutex_t		mutex;
+	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		*forks;
 
 }					t_data;
@@ -43,5 +52,8 @@ int		parse_params(int argc, char *argv[], t_data *data);
 void	*philos_lifecycle(void *data);
 void	*philosopher(void *data);
 long	delta_time(struct timeval last_eat_time);
+int		put_message(t_philo *philo, char *message);
+int 	delay(long sleep_time);
+
 
 #endif

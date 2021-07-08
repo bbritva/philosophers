@@ -1,36 +1,54 @@
 #include "philo_main.h"
 
-long delta_time(struct timeval last_eat_time)
+int get_forks(t_philo *me)
 {
-	struct timeval curr_time;
+	if (me->index % 2)
+	{
+		pthread_mutex_lock(me->right_fork);
+		put_message(me, TAKE_RIGHT);
+		pthread_mutex_lock(me->left_fork);
+		put_message(me, TAKE_LEFT);
+	}
+	else
+	{
+		pthread_mutex_lock(me->left_fork);
+		put_message(me, TAKE_LEFT);
+		pthread_mutex_lock(me->right_fork);
+		put_message(me, TAKE_RIGHT);
+	}
+	return (0);
+}
 
-	gettimeofday(&curr_time, 0);
-	return ((curr_time.tv_sec - last_eat_time.tv_sec) * 1000 +
-		(curr_time.tv_usec - last_eat_time.tv_usec) / 1000);
+int put_forks(t_philo *me)
+{
+	pthread_mutex_unlock(me->right_fork);
+	put_message(me, PUT_RIGHT);
+	pthread_mutex_unlock(me->left_fork);
+	put_message(me, PUT_LEFT);
+	return (0);
 }
 
 void	*philosopher(void *data)
 {
-	pthread_t	lifecycle;
-	long 		delta;
-	t_philo  	*me;
+	t_philo 		*me;
+	int     		eat_count;
 
-	if (!data)
-		return (0);
+	eat_count = 0;
 	me = (t_philo *)data;
 	gettimeofday(&me->last_eat_time, NULL);
 	printf("Philo #%d: i'm alive\n", me->index);
-	pthread_create(&lifecycle, NULL, philos_lifecycle, (void *)me);
-	while(1)
+	while (!me->eat_count || eat_count < me->eat_count)
 	{
-		delta = delta_time(me->last_eat_time);
-		if (delta > me->params->death_time)
-		{
-			me->params->flag = me->params->flag & ~(IS_ALIVE);
-			pthread_detach(lifecycle);
-			printf("Philo #%d killed\n delta = %ld\n", me->index, delta);
-			break ;
-		}
+		get_forks(me);
+		put_message(me, EAT);
+		delay(me->params->eat_time);
+		put_forks(me);
+		gettimeofday(&me->last_eat_time, NULL);
+		put_message(me, SLEEP);
+		eat_count++;
+		delay(me->params->sleep_time);
+		put_message(me, THINK);
 	}
-	return (0);
+	me->params->flag = me->params->flag & ~(IS_ALIVE);
+	return (NULL);
 }
