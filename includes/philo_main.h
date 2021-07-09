@@ -19,8 +19,8 @@
 # define THINK "is thinking"
 # define FULL "is full"
 # define PUT_LEFT "has put a left fork"
-# define DEAD "\x1B[36mis dead-------------------------------------\x1B[0m"
-# define ALL_FULL "\x1B[36m all philos is full-----------------------\x1B[0m\n"
+# define DEAD "\x1B[36mis dead\x1B[0m"
+# define ALL_FULL "\x1B[36m all philos is full\x1B[0m\n"
 
 typedef struct s_data {
 	int					philos_cnt;

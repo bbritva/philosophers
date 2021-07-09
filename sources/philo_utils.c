@@ -28,6 +28,6 @@ int	delay(long sleep_time)
 
 	gettimeofday(&start_time, NULL);
 	while (delta_time(start_time) <= sleep_time)
-		usleep(50);
+		usleep(1);
 	return (0);
 }
