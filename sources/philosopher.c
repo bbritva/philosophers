@@ -4,17 +4,17 @@ int	get_forks(t_philo *me)
 {
 	if (me->index % 2)
 	{
-		pthread_mutex_lock(me->right_fork);
-		put_message(me, TAKE_RIGHT);
 		pthread_mutex_lock(me->left_fork);
 		put_message(me, TAKE_LEFT);
+		pthread_mutex_lock(me->right_fork);
+		put_message(me, TAKE_RIGHT);
 	}
 	else
 	{
-		pthread_mutex_lock(me->left_fork);
-		put_message(me, TAKE_LEFT);
 		pthread_mutex_lock(me->right_fork);
 		put_message(me, TAKE_RIGHT);
+		pthread_mutex_lock(me->left_fork);
+		put_message(me, TAKE_LEFT);
 	}
 	return (0);
 }
@@ -47,6 +47,13 @@ void	*philosopher(void *data)
 
 	eat_count = 0;
 	me = (t_philo *)data;
+	if (me->index == me->params->philos_cnt - 1)
+		pthread_mutex_unlock(&me->params->odd_mutex);
+	if (me->index % 2)
+	{
+		pthread_mutex_lock(&me->params->odd_mutex);
+		pthread_mutex_unlock(&me->params->odd_mutex);
+	}
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | STARTED;
 	while (1)
