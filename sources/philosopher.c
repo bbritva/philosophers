@@ -28,7 +28,7 @@ int	put_forks(t_philo *me)
 	return (0);
 }
 
-int	eat(t_philo *me)
+int	eat(t_philo *me, int *eat_count)
 {
 	get_forks(me);
 	pthread_mutex_lock(&me->params->death_mutex);
@@ -37,16 +37,13 @@ int	eat(t_philo *me)
 	gettimeofday(&me->last_eat_time, NULL);
 	delay(me->params->eat_time);
 	put_forks(me);
+	(*eat_count)++;
 	return (0);
 }
 
-void	*philosopher(void *data)
+int	prepare_philo(t_philo *me, int *eat_count)
 {
-	t_philo	*me;
-	int		eat_count;
-
-	eat_count = 0;
-	me = (t_philo *)data;
+	*eat_count = 0;
 	if (me->index == me->params->philos_cnt - 1)
 		pthread_mutex_unlock(&me->params->odd_mutex);
 	if (me->index % 2)
@@ -56,10 +53,19 @@ void	*philosopher(void *data)
 	}
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | STARTED;
+	return (0);
+}
+
+void	*philosopher(void *data)
+{
+	t_philo	*me;
+	int		eat_count;
+
+	me = (t_philo *)data;
+	prepare_philo(me, &eat_count);
 	while (1)
 	{
-		eat(me);
-		eat_count++;
+		eat(me, &eat_count);
 		if (me->params->limit_to_eat && eat_count >= me->params->limit_to_eat)
 			break ;
 		put_message(me, SLEEP);
