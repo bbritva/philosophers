@@ -10,15 +10,12 @@
 
 # define IS_FULL 2
 # define STARTED 1
-# define TAKE_RIGHT "has taken a right fork"
-# define TAKE_LEFT "has taken a left fork"
-# define PUT_RIGHT "has put a right fork"
-# define PUT_LEFT "has put a left fork"
+# define TAKE_FORK "has taken forks"
+# define PUT_FORK "has put forks"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
 # define FULL "is full"
-# define PUT_LEFT "has put a left fork"
 # define DEAD "\x1B[36mis dead\x1B[0m"
 # define ALL_FULL "\x1B[36m all philos is full\x1B[0m\n"
 

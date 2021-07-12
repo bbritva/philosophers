@@ -1,36 +1,33 @@
 #include "philo_main.h"
 
-int	get_forks(t_philo *me)
+int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 {
-	if (me->index % 2)
+	while (1)
 	{
-		pthread_mutex_lock(me->left_fork);
-		put_message(me, TAKE_LEFT);
-		pthread_mutex_lock(me->right_fork);
-		put_message(me, TAKE_RIGHT);
+		pthread_mutex_lock(first);
+		if (!pthread_mutex_trylock(second))
+			break ;
+		else
+			pthread_mutex_unlock(first);
 	}
-	else
-	{
-		pthread_mutex_lock(me->right_fork);
-		put_message(me, TAKE_RIGHT);
-		pthread_mutex_lock(me->left_fork);
-		put_message(me, TAKE_LEFT);
-	}
+	put_message(me, TAKE_FORK);
 	return (0);
 }
 
 int	put_forks(t_philo *me)
 {
 	pthread_mutex_unlock(me->right_fork);
-	put_message(me, PUT_RIGHT);
 	pthread_mutex_unlock(me->left_fork);
-	put_message(me, PUT_LEFT);
+	put_message(me, PUT_FORK);
 	return (0);
 }
 
 int	eat(t_philo *me, int *eat_count)
 {
-	get_forks(me);
+	if (me->index % 2)
+		get_forks(me, me->left_fork, me->right_fork);
+	else
+		get_forks(me, me->right_fork, me->left_fork);
 	pthread_mutex_lock(&me->params->death_mutex);
 	pthread_mutex_unlock(&me->params->death_mutex);
 	put_message(me, EAT);
