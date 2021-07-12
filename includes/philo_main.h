@@ -26,6 +26,7 @@ typedef struct s_data {
 	int					sleep_time;
 	int					limit_to_eat;
 	int					full_cnt;
+	int					started_count;
 	struct timeval		start_time;
 	pthread_mutex_t		mutex;
 	pthread_mutex_t		odd_mutex;

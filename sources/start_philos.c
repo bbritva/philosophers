@@ -8,7 +8,6 @@ int	init_forks(t_data *data, t_philo ***philos)
 	while (count--)
 	{
 		pthread_mutex_init(&data->forks[count], NULL);
-		pthread_mutex_lock(&data->forks[count]);
 	}
 	while (++count < data->philos_cnt)
 	{
