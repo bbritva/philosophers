@@ -5,6 +5,7 @@ int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 	pthread_mutex_lock(first);
 	put_message(me, TAKE_FORK);
 	pthread_mutex_lock(second);
+	gettimeofday(&me->last_eat_time, NULL);
 	put_message(me, TAKE_FORK);
 	return (0);
 }
@@ -27,7 +28,6 @@ int	eat(t_philo *me, int *eat_count)
 	else
 		get_forks(me, me->right_fork, me->left_fork);
 	put_message(me, EAT);
-	gettimeofday(&me->last_eat_time, NULL);
 	delay(me->params->eat_time);
 	put_forks(me);
 	(*eat_count)++;
