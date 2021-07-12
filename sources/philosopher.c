@@ -2,14 +2,9 @@
 
 int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 {
-	while (1)
-	{
-		pthread_mutex_lock(first);
-		if (!pthread_mutex_trylock(second))
-			break ;
-		else
-			pthread_mutex_unlock(first);
-	}
+	pthread_mutex_lock(first);
+	put_message(me, TAKE_FORK);
+	pthread_mutex_lock(second);
 	put_message(me, TAKE_FORK);
 	return (0);
 }
@@ -17,6 +12,7 @@ int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 int	put_forks(t_philo *me)
 {
 	pthread_mutex_unlock(me->right_fork);
+	put_message(me, PUT_FORK);
 	pthread_mutex_unlock(me->left_fork);
 	put_message(me, PUT_FORK);
 	return (0);
@@ -26,14 +22,10 @@ int	eat(t_philo *me, int *eat_count)
 {
 	pthread_mutex_lock(&me->params->death_mutex);
 	pthread_mutex_unlock(&me->params->death_mutex);
-	if (me->index % 2)
-	{
+	if (me->index % 2 == 0)
 		get_forks(me, me->left_fork, me->right_fork);
-	}
 	else
-	{
 		get_forks(me, me->right_fork, me->left_fork);
-	}
 	put_message(me, EAT);
 	gettimeofday(&me->last_eat_time, NULL);
 	delay(me->params->eat_time);

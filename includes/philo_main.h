@@ -10,8 +10,8 @@
 
 # define IS_FULL 2
 # define STARTED 1
-# define TAKE_FORK "has taken forks"
-# define PUT_FORK "has put forks"
+# define TAKE_FORK "has taken fork"
+# define PUT_FORK "has put fork"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
 # define THINK "is thinking"

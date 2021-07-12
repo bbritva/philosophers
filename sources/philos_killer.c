@@ -2,9 +2,12 @@
 
 void	*death(t_philo *philo)
 {
+	long	delta;
+
 	pthread_mutex_lock(&philo->params->death_mutex);
-	put_message(philo, DEAD);
 	pthread_mutex_lock(&philo->params->mutex);
+	delta = delta_time(philo->params->start_time);
+	printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, DEAD);
 	return (0);
 }
 
@@ -29,11 +32,11 @@ void	*killer(void *data)
 		i = -1;
 		while (++i < philos[0]->params->philos_cnt)
 		{
-			if (philos[i]->flag & STARTED && delta_time
-				(philos[i]->last_eat_time) > philos[i]->params->death_time + 2)
-				return (death(philos[i]));
 			if (philos[0]->params->full_cnt == philos[0]->params->philos_cnt)
 				return (full(philos[i]));
+			if (philos[i]->flag & STARTED && delta_time
+				(philos[i]->last_eat_time) > philos[i]->params->death_time)
+				return (death(philos[i]));
 		}
 	}
 }
