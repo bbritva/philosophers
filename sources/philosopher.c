@@ -38,12 +38,19 @@ int	prepare_philo(t_philo *me, int *eat_count)
 {
 	*eat_count = 0;
 	if (me->index == me->params->philos_cnt - 1)
-		pthread_mutex_unlock(&me->params->odd_mutex);
+		pthread_mutex_unlock(&(me->params->odd_mutex));
 	if (me->index % 2)
 	{
 		pthread_mutex_lock(&me->params->odd_mutex);
-		pthread_mutex_unlock(&me->params->odd_mutex);
+		pthread_mutex_unlock(&(me->params->odd_mutex));
 	}
+	if (!me->index)
+	{
+		pthread_mutex_unlock(me->right_fork);
+		pthread_mutex_unlock(me->left_fork);
+	}
+	else
+		pthread_mutex_unlock(me->left_fork);
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | STARTED;
 	return (0);
