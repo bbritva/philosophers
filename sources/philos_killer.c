@@ -30,7 +30,7 @@ void	*killer(void *data)
 		while (++i < philos[0]->params->philos_cnt)
 		{
 			if (philos[i]->flag & STARTED && delta_time
-				(philos[i]->last_eat_time) > philos[i]->params->death_time)
+				(philos[i]->last_eat_time) > philos[i]->params->death_time + 2)
 				return (death(philos[i]));
 			if (philos[0]->params->full_cnt == philos[0]->params->philos_cnt)
 				return (full(philos[i]));
