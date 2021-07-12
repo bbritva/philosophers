@@ -8,7 +8,7 @@ void	*put_message(t_philo *philo, char *message)
 		return (0);
 	delta = delta_time(philo->params->start_time);
 	pthread_mutex_lock(&philo->params->mutex);
-	printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, message);
+	printf("%-8ld: Philo #%2d %s\n", delta, philo->index, message);
 	pthread_mutex_unlock(&philo->params->mutex);
 	return (0);
 }
@@ -26,9 +26,10 @@ int	delay(long sleep_time)
 {
 	struct timeval	start_time;
 
-	usleep(100);
+//	usleep(100);
 	gettimeofday(&start_time, NULL);
-	while (delta_time(start_time) < sleep_time)
+	while (delta_time(start_time) <= sleep_time)
 		usleep(50);
+//	usleep(sleep_time * 1000);
 	return (0);
 }
