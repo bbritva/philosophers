@@ -28,6 +28,7 @@ void	*killer(void *data)
 	if (!data)
 		return (0);
 	philos = (t_philo **)data;
+	delay(10);
 	while (1)
 	{
 		i = -1;
@@ -38,7 +39,7 @@ void	*killer(void *data)
 			delta = delta_time(philos[i]->last_eat_time);
 			if (philos[i]->flag & STARTED && delta > philos[i]->params->death_time)
 			{
-				printf("delta = %ld\n", delta);
+				printf("delta = %ld, %d\n", delta, philos[i]->flag);
 				return (death(philos[i]));
 			}
 		}

@@ -65,7 +65,6 @@ void	*philosopher(void *data)
 		put_message(me, SLEEP);
 		delay(me->params->sleep_time);
 		put_message(me, THINK);
-		delay(1);
 	}
 	put_message(me, FULL);
 	me->flag = me->flag | IS_FULL;
