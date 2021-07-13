@@ -23,7 +23,7 @@ int	eat(t_philo *me, int *eat_count)
 {
 	pthread_mutex_lock(&me->params->death_mutex);
 	pthread_mutex_unlock(&me->params->death_mutex);
-	if (me->index % 2)
+	if (!(me->index % 2))
 		get_forks(me, me->left_fork, me->right_fork);
 	else
 		get_forks(me, me->right_fork, me->left_fork);
@@ -65,6 +65,7 @@ void	*philosopher(void *data)
 		put_message(me, SLEEP);
 		delay(me->params->sleep_time);
 		put_message(me, THINK);
+		delay(1);
 	}
 	put_message(me, FULL);
 	me->flag = me->flag | IS_FULL;

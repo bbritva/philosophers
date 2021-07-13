@@ -23,6 +23,7 @@ void	*killer(void *data)
 {
 	t_philo		**philos;
 	int			i;
+	long 		delta;
 
 	if (!data)
 		return (0);
@@ -34,9 +35,12 @@ void	*killer(void *data)
 		{
 			if (philos[0]->params->full_cnt == philos[0]->params->philos_cnt)
 				return (full(philos[i]));
-			if (philos[i]->flag & STARTED && delta_time
-				(philos[i]->last_eat_time) > philos[i]->params->death_time)
+			delta = delta_time(philos[i]->last_eat_time);
+			if (philos[i]->flag & STARTED && delta > philos[i]->params->death_time)
+			{
+				printf("delta = %ld\n", delta);
 				return (death(philos[i]));
+			}
 		}
 	}
 }
