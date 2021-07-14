@@ -37,8 +37,6 @@ int	eat(t_philo *me, int *eat_count)
 int	prepare_philo(t_philo *me, int *eat_count)
 {
 	*eat_count = 0;
-	if (me->params->started_count >= me->params->philos_cnt / 2 + (me->params->philos_cnt % 2))
-		pthread_mutex_unlock(&(me->params->odd_mutex));
 	if (me->index % 2)
 	{
 		pthread_mutex_lock(&me->params->odd_mutex);
@@ -47,6 +45,9 @@ int	prepare_philo(t_philo *me, int *eat_count)
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | STARTED;
 	me->params->started_count++;
+	if (me->params->started_count >= me->params->philos_cnt / 2 + (me->params->philos_cnt % 2))
+		pthread_mutex_unlock(&(me->params->odd_mutex));
+	printf("%d\n", me->params->started_count);
 	return (0);
 }
 
