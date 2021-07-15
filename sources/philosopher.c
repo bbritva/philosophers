@@ -36,7 +36,7 @@ int	eat(t_philo *me, int *eat_count)
 
 int	prepare_philo(t_philo *me, int *eat_count)
 {
-	usleep(50 * me->index);
+	usleep(50 * (me->index % 2));
 	*eat_count = 0;
 	if (me->index % 2)
 	{
