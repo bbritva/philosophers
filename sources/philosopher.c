@@ -37,17 +37,18 @@ int	eat(t_philo *me, int *eat_count)
 int	prepare_philo(t_philo *me, int *eat_count)
 {
 	*eat_count = 0;
+	usleep(100 * me->index);
 	if (me->index % 2)
 	{
 		pthread_mutex_lock(&me->params->odd_mutex);
 		pthread_mutex_unlock(&(me->params->odd_mutex));
 	}
 	gettimeofday(&me->last_eat_time, NULL);
+	put_message(me, "started");
 	me->flag = me->flag | STARTED;
 	me->params->started_count++;
 	if (me->params->started_count >= me->params->philos_cnt / 2 + (me->params->philos_cnt % 2))
 		pthread_mutex_unlock(&(me->params->odd_mutex));
-	printf("%d\n", me->params->started_count);
 	return (0);
 }
 
