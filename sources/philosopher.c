@@ -37,7 +37,7 @@ int	eat(t_philo *me, int *eat_count)
 int	prepare_philo(t_philo *me, int *eat_count)
 {
 	*eat_count = 0;
-	usleep(100 * me->index);
+//	usleep(50 * me->index);
 	if (me->index % 2)
 	{
 		pthread_mutex_lock(&me->params->odd_mutex);

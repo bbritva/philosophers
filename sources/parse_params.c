@@ -40,18 +40,18 @@ int	parse_params(int argc, char *argv[], t_data *data)
 	if (data->philos_cnt < 1)
 		return (0);
 	data->death_time = ft_atoi(argv[2]);
-	if (data->death_time < 2)
+	if (data->death_time < 60)
 		return (0);
 	data->eat_time = ft_atoi(argv[3]);
-	if (data->eat_time < 2)
+	if (data->eat_time < 60)
 		return (0);
 	data->sleep_time = ft_atoi(argv[4]);
-	if (data->sleep_time < 2)
+	if (data->sleep_time < 60)
 		return (0);
 	if (argv[5])
 	{
 		data->limit_to_eat = ft_atoi(argv[5]);
-		if (data->limit_to_eat < 2)
+		if (data->limit_to_eat < 1)
 			return (0);
 	}
 	else
