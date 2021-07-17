@@ -49,6 +49,21 @@ int	init_philos(t_data *data, t_philo ***philos)
 	return (0);
 }
 
+int free_philos(t_philo **philos)
+{
+	int i;
+	
+	if (philos && *philos)
+	{
+		i = philos[0]->params->philos_cnt;
+		while (i)
+			free(philos[--i]);
+		free(philos);
+		return (1);
+	}
+	return (0);
+}
+
 int	start_philos(t_data *data)
 {
 	int		i;
@@ -66,7 +81,6 @@ int	start_philos(t_data *data)
 	killer(philos);
 	while (++i < data->philos_cnt)
 		pthread_detach(philos[i]->thread);
-	free(data->forks);
-	free(philos);
+	free_philos(philos);
 	return (1);
 }
