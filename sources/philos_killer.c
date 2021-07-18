@@ -40,7 +40,6 @@ void	*killer(void *data)
 			if (philos[i]->flag & STARTED && \
 				delta > philos[i]->params->death_time)
 			{
-				printf("delta = %ld, %d\n", delta, philos[i]->flag);
 				return (death(philos[i]));
 			}
 		}

@@ -49,10 +49,10 @@ int	init_philos(t_data *data, t_philo ***philos)
 	return (0);
 }
 
-int free_philos(t_philo **philos)
+int	free_philos(t_philo **philos)
 {
-	int i;
-	
+	int	i;
+
 	if (philos && *philos)
 	{
 		i = philos[0]->params->philos_cnt;

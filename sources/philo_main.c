@@ -1,6 +1,6 @@
 #include "philo_main.h"
 
-int mutex_destroyer(t_data *data)
+int	mutex_destroyer(t_data *data)
 {
 	int	i;
 
@@ -11,7 +11,7 @@ int mutex_destroyer(t_data *data)
 		i = -1;
 		while (++i > data->philos_cnt)
 			pthread_mutex_destroy(&(data->forks[i]));
-		free(data->forks);		
+		free(data->forks);
 	}
 	return (0);
 }
