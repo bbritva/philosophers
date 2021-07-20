@@ -21,7 +21,7 @@
 
 typedef struct s_data {
 	int					philos_cnt;
-	int					death_time;
+	long				death_time;
 	int					eat_time;
 	int					sleep_time;
 	int					limit_to_eat;
