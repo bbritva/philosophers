@@ -35,7 +35,6 @@
 *.i*86
 *.x86_64
 *.hex
-philo
 
 # Debug files
 *.dSYM/
@@ -43,6 +42,7 @@ philo
 *.idb
 *.pdb
 *.vscode
+/.idea/*
 
 # Kernel Module Compile Results
 *.mod*
