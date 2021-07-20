@@ -24,7 +24,7 @@ void	*killer(void *data)
 	t_philo		**philos;
 	int			i;
 	long		delta;
-	long 		death_time;
+	long		death_time;
 
 	if (!data)
 		return (0);
@@ -41,10 +41,7 @@ void	*killer(void *data)
 			delta = delta_time(philos[i]->last_eat_time);
 			if (philos[i]->flag & STARTED && \
 				delta > death_time)
-			{
-				printf("delta = %ld\n", delta);
 				return (death(philos[i]));
-			}
 		}
 	}
 }
