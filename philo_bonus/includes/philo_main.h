@@ -27,12 +27,11 @@ typedef struct s_data {
 	int					limit_to_eat;
 	int					full_cnt;
 	int					started_count;
+	int*				pids;
 	struct timeval		start_time;
 	pthread_mutex_t		mutex;
 	pthread_mutex_t		odd_mutex;
 	pthread_mutex_t		death_mutex;
-	pthread_mutex_t		*forks;
-
 }						t_data;
 
 typedef struct s_philo {

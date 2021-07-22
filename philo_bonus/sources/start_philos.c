@@ -1,25 +1,5 @@
 #include "philo_main.h"
 
-int	init_forks(t_data *data, t_philo ***philos)
-{
-	int	count;
-
-	count = data->philos_cnt;
-	while (count--)
-	{
-		pthread_mutex_init(&data->forks[count], NULL);
-	}
-	while (++count < data->philos_cnt)
-	{
-		(*philos)[count]->left_fork = &data->forks[count];
-		if (count)
-			(*philos)[count]->right_fork = &data->forks[count - 1];
-		else
-			(*philos)[count]->right_fork = &data->forks[data->philos_cnt - 1];
-	}
-	return (0);
-}
-
 int	init_philos(t_data *data, t_philo ***philos)
 {
 	int	i;
@@ -28,10 +8,9 @@ int	init_philos(t_data *data, t_philo ***philos)
 	pthread_mutex_init(&data->mutex, NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
 	pthread_mutex_init(&data->odd_mutex, NULL);
+	data->pids = (int *) ft_calloc(data->philos_cnt, sizeof (int));
 	*philos = (t_philo **)ft_calloc(data->philos_cnt, sizeof (t_philo *));
-	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_cnt,
-			sizeof(pthread_mutex_t));
-	if (data->forks && *philos)
+	if (data->pids && *philos)
 	{
 		i = -1;
 		while (++i < data->philos_cnt)
@@ -43,7 +22,6 @@ int	init_philos(t_data *data, t_philo ***philos)
 				(*philos)[i]->params = data;
 			}
 		}
-		init_forks(data, philos);
 		return (1);
 	}
 	return (0);
@@ -73,10 +51,17 @@ int	start_philos(t_data *data)
 		return (0);
 	i = -1;
 	gettimeofday(&data->start_time, NULL);
-	pthread_mutex_lock(&data->odd_mutex);
 	while (++i < data->philos_cnt)
-		pthread_create(&philos[i]->thread, NULL, philosopher,
-			(void *)philos[i]);
+	{
+		data->pids[i] = fork();
+		if (!data->pids[i])
+			philosopher((void *) philos[i]);
+		else
+		{
+
+		}
+	}
+
 	i = -1;
 	killer(philos);
 	while (++i < data->philos_cnt)
