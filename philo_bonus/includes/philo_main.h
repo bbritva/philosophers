@@ -8,8 +8,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define IS_FULL 2
-# define STARTED 1
+# define IS_FULL 0x2
+# define STARTED 0x1
 # define TAKE_FORK "has taken fork"
 # define PUT_FORK "has put fork"
 # define EAT "is eating"
@@ -29,9 +29,6 @@ typedef struct s_data {
 	int					started_count;
 	int*				pids;
 	struct timeval		start_time;
-	pthread_mutex_t		mutex;
-	pthread_mutex_t		odd_mutex;
-	pthread_mutex_t		death_mutex;
 }						t_data;
 
 typedef struct s_philo {

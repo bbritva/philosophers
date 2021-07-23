@@ -1,3 +1,4 @@
+#include <sys/wait.h>
 #include "philo_main.h"
 
 int	init_philos(t_data *data, t_philo ***philos)
@@ -5,9 +6,9 @@ int	init_philos(t_data *data, t_philo ***philos)
 	int	i;
 
 	data->started_count = 0;
-	pthread_mutex_init(&data->mutex, NULL);
-	pthread_mutex_init(&data->death_mutex, NULL);
-	pthread_mutex_init(&data->odd_mutex, NULL);
+//	pthread_mutex_init(&data->mutex, NULL);
+//	pthread_mutex_init(&data->death_mutex, NULL);
+//	pthread_mutex_init(&data->odd_mutex, NULL);
 	data->pids = (int *) ft_calloc(data->philos_cnt, sizeof (int));
 	*philos = (t_philo **)ft_calloc(data->philos_cnt, sizeof (t_philo *));
 	if (data->pids && *philos)
@@ -55,17 +56,11 @@ int	start_philos(t_data *data)
 	{
 		data->pids[i] = fork();
 		if (!data->pids[i])
-			philosopher((void *) philos[i]);
-		else
 		{
-
+			philosopher((void *) philos[i]);
+			break ;
 		}
 	}
-
-	i = -1;
-	killer(philos);
-	while (++i < data->philos_cnt)
-		pthread_detach(philos[i]->thread);
-	free_philos(philos);
+	waitpid(-1, NULL, 0);
 	return (1);
 }

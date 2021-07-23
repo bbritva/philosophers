@@ -1,21 +1,5 @@
 #include "philo_main.h"
 
-int	mutex_destroyer(t_data *data)
-{
-	int	i;
-
-	if (data)
-	{
-		pthread_mutex_destroy(&(data->mutex));
-		pthread_mutex_destroy(&(data->odd_mutex));
-		i = -1;
-		while (++i > data->philos_cnt)
-			pthread_mutex_destroy(&(data->forks[i]));
-		free(data->forks);
-	}
-	return (0);
-}
-
 int	main(int argc, char *argv[])
 {
 	t_data	*data;
@@ -26,7 +10,6 @@ int	main(int argc, char *argv[])
 		if (parse_params(argc, argv, data))
 		{
 			start_philos(data);
-			mutex_destroyer(data);
 		}
 		else
 			printf("params error\n");

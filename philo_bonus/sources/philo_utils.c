@@ -7,9 +7,9 @@ void	*put_message(t_philo *philo, char *message)
 	if (!philo)
 		return (0);
 	delta = delta_time(philo->params->start_time);
-	pthread_mutex_lock(&philo->params->mutex);
+//	pthread_mutex_lock(&philo->params->mutex);
 	printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, message);
-	pthread_mutex_unlock(&philo->params->mutex);
+//	pthread_mutex_unlock(&philo->params->mutex);
 	return (0);
 }
 
