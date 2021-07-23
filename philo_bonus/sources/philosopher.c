@@ -2,16 +2,24 @@
 
 int	get_forks(t_philo *me)
 {
+	int sem_value;
+
 	gettimeofday(&me->last_eat_time, NULL);
+	sem_wait(me->params->forks);
 	put_message(me, TAKE_FORK);
+	sem_wait(me->params->forks);
 	put_message(me, TAKE_FORK);
+	sem_getvalue(me->params->forks, &sem_value);
+	printf("sem_value = %d\n", sem_value);
 	return (0);
 }
 
 int	put_forks(t_philo *me)
 {
 	put_message(me, PUT_FORK);
+	sem_post(me->params->forks);
 	put_message(me, PUT_FORK);
+	sem_post(me->params->forks);
 	return (0);
 }
 
@@ -19,10 +27,7 @@ int	eat(t_philo *me, int *eat_count)
 {
 //	pthread_mutex_lock(&me->params->death_mutex);
 //	pthread_mutex_unlock(&me->params->death_mutex);
-	if ((me->index % 2))
-		get_forks(me);
-	else
-		get_forks(me);
+	get_forks(me);
 	put_message(me, EAT);
 	delay(me->params->eat_time);
 	put_forks(me);

@@ -7,6 +7,10 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <sys/wait.h>
+# include <semaphore.h>
+# include <fcntl.h>
+
 
 # define IS_FULL 0x2
 # define STARTED 0x1
@@ -29,6 +33,7 @@ typedef struct s_data {
 	int					started_count;
 	int*				pids;
 	struct timeval		start_time;
+	sem_t				*forks;
 }						t_data;
 
 typedef struct s_philo {

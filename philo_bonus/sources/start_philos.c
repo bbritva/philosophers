@@ -1,4 +1,3 @@
-#include <sys/wait.h>
 #include "philo_main.h"
 
 int	init_philos(t_data *data, t_philo ***philos)
@@ -13,6 +12,12 @@ int	init_philos(t_data *data, t_philo ***philos)
 	*philos = (t_philo **)ft_calloc(data->philos_cnt, sizeof (t_philo *));
 	if (data->pids && *philos)
 	{
+		sem_unlink("forks");
+		data->forks = sem_open("forks", O_CREAT, 0666, data->philos_cnt);
+		int sem_value;
+
+		sem_getvalue(data->forks, &sem_value);
+		printf("sem_value = %d\n", sem_value);
 		i = -1;
 		while (++i < data->philos_cnt)
 		{
