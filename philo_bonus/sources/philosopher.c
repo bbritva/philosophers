@@ -4,6 +4,7 @@ void	*death(t_philo *philo, pthread_t *live)
 {
 	long	delta;
 
+	sem_wait(philo->params->print_sem);
 	pthread_detach(*live);
 	delta = delta_time(philo->params->start_time);
 	philo->flag = 0;
@@ -13,6 +14,7 @@ void	*death(t_philo *philo, pthread_t *live)
 
 void	*full(t_philo *philo, pthread_t *live)
 {
+	sem_wait(philo->params->print_sem);
 	pthread_detach(*live);
 	philo->flag = (char) (philo->flag | ~(IS_FULL));
 	printf("%-8ld:%s", delta_time(philo->params->start_time), ALL_FULL);

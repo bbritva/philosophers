@@ -34,17 +34,14 @@ typedef struct s_data {
 	int*				pids;
 	struct timeval		start_time;
 	sem_t				*forks;
+	sem_t				*print_sem;
 }						t_data;
 
 typedef struct s_philo {
-	pthread_t			thread;
 	struct timeval		last_eat_time;
 	int					index;
 	char				flag;
 	t_data				*params;
-	pthread_mutex_t		*left_fork;
-	pthread_mutex_t		*right_fork;
-
 }						t_philo;
 
 int		start_philos(t_data *data);
