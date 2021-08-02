@@ -14,10 +14,11 @@ int	init_philos(t_data *data, t_philo ***philos)
 	{
 		sem_unlink("forks");
 		data->forks = sem_open("forks", O_CREAT, 0666, data->philos_cnt);
-		int sem_value;
 
-		sem_getvalue(data->forks, &sem_value);
-		printf("sem_value = %d\n", sem_value);
+
+//		int sem_value;
+//		sem_getvalue(data->forks, &sem_value);
+//		printf("sem_value = %d\n", sem_value);
 		i = -1;
 		while (++i < data->philos_cnt)
 		{

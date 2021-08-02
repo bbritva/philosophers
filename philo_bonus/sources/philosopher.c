@@ -1,16 +1,31 @@
 #include "philo_main.h"
 
+void	*death(t_philo *philo, pthread_t *live)
+{
+	long	delta;
+
+	pthread_detach(*live);
+	delta = delta_time(philo->params->start_time);
+	philo->flag = 0;
+	printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, DEAD);
+	return (0);
+}
+
+void	*full(t_philo *philo, pthread_t *live)
+{
+	pthread_detach(*live);
+	philo->flag = (char) (philo->flag | ~(IS_FULL));
+	printf("%-8ld:%s", delta_time(philo->params->start_time), ALL_FULL);
+	return (0);
+}
+
 int	get_forks(t_philo *me)
 {
-	int sem_value;
-
+	sem_wait(me->params->forks);
+	put_message(me, TAKE_FORK);
+	sem_wait(me->params->forks);
 	gettimeofday(&me->last_eat_time, NULL);
-	sem_wait(me->params->forks);
 	put_message(me, TAKE_FORK);
-	sem_wait(me->params->forks);
-	put_message(me, TAKE_FORK);
-	sem_getvalue(me->params->forks, &sem_value);
-	printf("sem_value = %d\n", sem_value);
 	return (0);
 }
 
@@ -25,8 +40,6 @@ int	put_forks(t_philo *me)
 
 int	eat(t_philo *me, int *eat_count)
 {
-//	pthread_mutex_lock(&me->params->death_mutex);
-//	pthread_mutex_unlock(&me->params->death_mutex);
 	get_forks(me);
 	put_message(me, EAT);
 	delay(me->params->eat_time);
@@ -44,31 +57,56 @@ int	prepare_philo(t_philo *me, int *eat_count)
 	return (0);
 }
 
-void	*philosopher(void *data)
+void	*live_cycle(void *data)
 {
 	t_philo		*me;
 	int			eat_count;
-	pthread_t	my_killer;
 
-	me = (t_philo *)data;
-	prepare_philo(me, &eat_count);
-	pthread_create(&my_killer, NULL, killer, me);
-	while (me->flag & STARTED && !(me->flag & IS_FULL))
+	if (data)
 	{
-		if (me->flag & STARTED)
-			eat(me, &eat_count);
-		if (me->params->limit_to_eat && eat_count >= me->params->limit_to_eat)
-			break ;
-		if (me->flag & STARTED)
-			put_message(me, SLEEP);
-		delay(me->params->sleep_time);
-		if (me->flag & STARTED)
-			put_message(me, THINK);
+		me = (t_philo *) data;
+		prepare_philo(me, &eat_count);
+		while (me->flag & STARTED && !(me->flag & IS_FULL))
+		{
+			if (me->flag & STARTED)
+				eat(me, &eat_count);
+			if (me->params->limit_to_eat &&
+				eat_count >= me->params->limit_to_eat)
+				break;
+			if (me->flag & STARTED)
+				put_message(me, SLEEP);
+			delay(me->params->sleep_time);
+			if (me->flag & STARTED)
+				put_message(me, THINK);
+		}
+		put_message(me, FULL);
+		me->flag = (char)(me->flag | IS_FULL);
+		me->flag = (char)(me->flag & ~(STARTED));
+		me->params->full_cnt++;
 	}
-	pthread_join(my_killer, NULL);
-	put_message(me, FULL);
-	me->flag = me->flag | IS_FULL;
-	me->flag = me->flag & ~(STARTED);
-	me->params->full_cnt++;
 	return (NULL);
+}
+
+void	*philosopher(void *data)
+{
+	pthread_t	live;
+	t_philo		*me;
+	long		delta;
+	long		death_time;
+	
+	if (!data)
+		return (NULL);
+	me = (t_philo *)data;
+	death_time = me->params->death_time;
+	pthread_create(&live, NULL, live_cycle, data);
+	while (1)
+	{
+		delay(10);
+		if (me->params->full_cnt == me->params->philos_cnt)
+			return (full(me, &live));
+		delta = delta_time(me->last_eat_time);
+		if (me->flag & STARTED && \
+			delta > death_time)
+			return (death(me, &live));
+	}
 }
