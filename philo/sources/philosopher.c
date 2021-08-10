@@ -36,13 +36,13 @@ int	eat(t_philo *me, int *eat_count)
 
 int	prepare_philo(t_philo *me, int *eat_count)
 {
-	usleep(500 * (me->index % 2 + me->index));
 	*eat_count = 0;
 	if (me->index % 2)
 	{
 		pthread_mutex_lock(&me->params->odd_mutex);
 		pthread_mutex_unlock(&(me->params->odd_mutex));
 	}
+	delay(me->index);
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | STARTED;
 	me->params->started_count++;
