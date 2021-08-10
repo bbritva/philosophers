@@ -6,7 +6,7 @@ int	mutex_destroyer(t_data *data)
 
 	if (data)
 	{
-		pthread_mutex_destroy(&(data->mutex));
+		pthread_mutex_destroy(&(data->print_mutex));
 		pthread_mutex_destroy(&(data->odd_mutex));
 		i = -1;
 		while (++i > data->philos_cnt)

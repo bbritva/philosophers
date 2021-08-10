@@ -22,12 +22,12 @@ int	put_forks(t_philo *me)
 int	eat(t_philo *me, int *eat_count)
 {
 	pthread_mutex_lock(&me->params->death_mutex);
-	pthread_mutex_unlock(&me->params->death_mutex);
 	if ((me->index % 2))
 		get_forks(me, me->left_fork, me->right_fork);
 	else
 		get_forks(me, me->right_fork, me->left_fork);
 	put_message(me, EAT);
+	pthread_mutex_unlock(&me->params->death_mutex);
 	delay(me->params->eat_time);
 	put_forks(me);
 	(*eat_count)++;
@@ -36,7 +36,7 @@ int	eat(t_philo *me, int *eat_count)
 
 int	prepare_philo(t_philo *me, int *eat_count)
 {
-	usleep(100 * (me->index));
+	usleep(100 * (me->index % 2));
 	*eat_count = 0;
 	if (me->index % 2)
 	{
