@@ -45,7 +45,7 @@ void	*life_cycle(void *data)
 
 	if (!data)
 		return (NULL);
-	me = (t_philo *) data;
+	me = (t_philo *)data;
 	prepare_philo(me, &eat_count);
 	while (me->flag & STARTED && !(me->flag & IS_FULL))
 	{
