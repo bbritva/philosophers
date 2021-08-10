@@ -5,14 +5,14 @@ int	init_philos(t_data *data, t_philo ***philos)
 	int	i;
 
 	data->started_count = 0;
-	data->pids = (int *) ft_calloc(data->philos_cnt, sizeof (int));
+	data->pids = (int *)ft_calloc(data->philos_cnt, sizeof (int));
 	*philos = (t_philo **)ft_calloc(data->philos_cnt, sizeof (t_philo *));
 	if (data->pids && *philos)
 	{
 		sem_unlink("forks");
 		sem_unlink("print");
 		data->forks = sem_open("forks", O_CREAT, 0666, data->philos_cnt);
-		data->forks = sem_open("print", O_CREAT, 0666, 1);
+		data->print_sem = sem_open("print", O_CREAT, 0666, 1);
 		i = -1;
 		while (++i < data->philos_cnt)
 		{

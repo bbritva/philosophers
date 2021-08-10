@@ -11,7 +11,6 @@
 # include <semaphore.h>
 # include <fcntl.h>
 
-
 # define IS_FULL 0x2
 # define STARTED 0x1
 # define TAKE_FORK "has taken fork"
@@ -31,7 +30,7 @@ typedef struct s_data {
 	int					limit_to_eat;
 	int					full_cnt;
 	int					started_count;
-	int*				pids;
+	int					*pids;
 	struct timeval		start_time;
 	sem_t				*forks;
 	sem_t				*print_sem;
@@ -46,7 +45,7 @@ typedef struct s_philo {
 
 int		start_philos(t_data *data);
 int		parse_params(int argc, char *argv[], t_data *data);
-void	*killer(void *data);
+void	*life_cycle(void *data);
 void	*philosopher(void *data);
 long	delta_time(struct timeval last_eat_time);
 void	*put_message(t_philo *philo, char *message);
