@@ -22,7 +22,7 @@ int	put_forks(t_philo *me)
 int	eat(t_philo *me, int *eat_count)
 {
 	pthread_mutex_lock(&me->params->death_mutex);
-	if ((me->index % 2))
+	if ((me->index % 2) || (me->index + 1 == me->params->philos_cnt))
 		get_forks(me, me->left_fork, me->right_fork);
 	else
 		get_forks(me, me->right_fork, me->left_fork);
@@ -37,12 +37,11 @@ int	eat(t_philo *me, int *eat_count)
 int	prepare_philo(t_philo *me, int *eat_count)
 {
 	*eat_count = 0;
-	if (me->index % 2)
-	{
-		pthread_mutex_lock(&me->params->odd_mutex);
-		pthread_mutex_unlock(&(me->params->odd_mutex));
-	}
-	delay(me->index);
+	if (me->index + 1 == me->params->philos_cnt)
+		delay(me->params->eat_time * 2 + 1);
+	else if (me->index % 2)
+		delay(me->params->eat_time + 1);
+//	delay(me->index);
 	gettimeofday(&me->last_eat_time, NULL);
 	me->flag = me->flag | STARTED;
 	me->params->started_count++;
