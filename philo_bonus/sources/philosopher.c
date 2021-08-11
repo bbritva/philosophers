@@ -33,6 +33,7 @@ void	*philosopher(void *data)
 	me = (t_philo *)data;
 	death_time = me->params->death_time;
 	pthread_create(&live, NULL, life_cycle, data);
+	pthread_detach(live);
 	while (1)
 	{
 		delay(10);

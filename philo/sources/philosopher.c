@@ -1,39 +1,5 @@
 #include "philo_main.h"
 
-int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
-{
-	pthread_mutex_lock(first);
-	put_message(me, TAKE_FORK);
-	pthread_mutex_lock(second);
-	gettimeofday(&me->last_eat_time, NULL);
-	put_message(me, TAKE_FORK);
-	return (0);
-}
-
-int	put_forks(t_philo *me)
-{
-	pthread_mutex_unlock(me->right_fork);
-	put_message(me, PUT_FORK);
-	pthread_mutex_unlock(me->left_fork);
-	put_message(me, PUT_FORK);
-	return (0);
-}
-
-int	eat(t_philo *me, int *eat_count)
-{
-	pthread_mutex_lock(&me->params->death_mutex);
-	if ((me->index % 2))
-		get_forks(me, me->left_fork, me->right_fork);
-	else
-		get_forks(me, me->right_fork, me->left_fork);
-	put_message(me, EAT);
-	pthread_mutex_unlock(&me->params->death_mutex);
-	delay(me->params->eat_time);
-	put_forks(me);
-	(*eat_count)++;
-	return (0);
-}
-
 int	prepare_philo(t_philo *me, int *eat_count)
 {
 	*eat_count = 0;
@@ -51,22 +17,35 @@ int	prepare_philo(t_philo *me, int *eat_count)
 		pthread_mutex_unlock(&(me->params->odd_mutex));
 	return (0);
 }
+void	*death(t_philo *philo)
+{
+	long	delta;
+
+//	pthread_mutex_lock(&philo->params->death_mutex);
+	pthread_mutex_lock(&philo->params->print_mutex);
+	delta = delta_time(philo->params->start_time);
+	printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, DEAD);
+	return (0);
+}
 
 void	*philosopher(void *data)
 {
-	t_philo	*me;
-	int		eat_count;
+	t_philo		*me;
+	int			eat_count;
+	pthread_t	life; 
+	long 		delta;
 
 	me = (t_philo *)data;
 	prepare_philo(me, &eat_count);
+	pthread_create(&life, NULL, life_cycle, data);
+	pthread_detach(life);
 	while (1)
 	{
-		eat(me, &eat_count);
-		if (me->params->limit_to_eat && eat_count >= me->params->limit_to_eat)
+		delta = delta_time(me->last_eat_time);
+		pthread_mutex_lock(&(me->death_mutex));
+		if (me->flag & STARTED && delta > me->params->death_time)
 			break ;
-		put_message(me, SLEEP);
-		delay(me->params->sleep_time);
-		put_message(me, THINK);
+		pthread_mutex_unlock(&(me->death_mutex));
 	}
 	put_message(me, FULL);
 	me->flag = me->flag | IS_FULL;

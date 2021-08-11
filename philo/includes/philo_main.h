@@ -43,12 +43,13 @@ typedef struct s_philo {
 	t_data				*params;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		death_mutex;
 
 }						t_philo;
 
 int		start_philos(t_data *data);
 int		parse_params(int argc, char *argv[], t_data *data);
-void	*killer(void *data);
+void	*life_cycle(void *data);
 void	*philosopher(void *data);
 long	delta_time(struct timeval last_eat_time);
 void	*put_message(t_philo *philo, char *message);
