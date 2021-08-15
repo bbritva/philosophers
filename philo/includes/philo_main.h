@@ -29,6 +29,7 @@ typedef struct s_data {
 	int					started_count;
 	struct timeval		start_time;
 	pthread_mutex_t		print_mutex;
+	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		odd_mutex;
 	uint8_t				is_death_happen;
 	pthread_mutex_t		*forks;

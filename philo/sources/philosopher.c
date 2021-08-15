@@ -21,9 +21,13 @@ void	*death(t_philo *philo)
 {
 	long	delta;
 
-	if (!philo->params->is_death_happen)
+	pthread_mutex_lock(&philo->params->death_mutex);
+	if (philo->params->is_death_happen)
+		pthread_mutex_unlock(&philo->params->death_mutex);
+	else
 	{
 		philo->params->is_death_happen = 1;
+		pthread_mutex_unlock(&philo->params->death_mutex);
 		pthread_mutex_lock(&philo->params->print_mutex);
 		delta = delta_time(philo->params->start_time);
 		printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, DEAD);

@@ -27,6 +27,7 @@ int	init_philos(t_data *data, t_philo ***philos)
 	data->started_count = 0;
 	pthread_mutex_init(&data->print_mutex, NULL);
 	pthread_mutex_init(&data->odd_mutex, NULL);
+	pthread_mutex_init(&data->death_mutex, NULL);
 	*philos = (t_philo **)ft_calloc(data->philos_cnt, sizeof (t_philo *));
 	data->forks = (pthread_mutex_t *)ft_calloc(data->philos_cnt,
 			sizeof(pthread_mutex_t));
