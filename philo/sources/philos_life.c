@@ -6,6 +6,7 @@ int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 	pthread_mutex_lock(first);
 	put_message(me, TAKE_FORK);
 	pthread_mutex_lock(second);
+	pthread_mutex_lock(&(me->death_mutex));
 	gettimeofday(&me->last_eat_time, NULL);
 	put_message(me, TAKE_FORK);
 	return (0);
@@ -13,6 +14,7 @@ int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 
 int	put_forks(t_philo *me)
 {
+	pthread_mutex_unlock(&(me->death_mutex));
 	pthread_mutex_unlock(me->right_fork);
 	put_message(me, PUT_FORK);
 	pthread_mutex_unlock(me->left_fork);
@@ -22,13 +24,11 @@ int	put_forks(t_philo *me)
 
 int	eat(t_philo *me, int *eat_count)
 {
-	pthread_mutex_lock(&me->death_mutex);
 	if ((me->index % 2))
 		get_forks(me, me->left_fork, me->right_fork);
 	else
 		get_forks(me, me->right_fork, me->left_fork);
 	put_message(me, EAT);
-	pthread_mutex_unlock(&me->death_mutex);
 	delay(me->params->eat_time);
 	put_forks(me);
 	(*eat_count)++;
@@ -43,7 +43,7 @@ void	*life_cycle(void *data)
 	if (!data)
 		return (0);
 	me = (t_philo *)data;
-	while (1)
+	while (me->flag & STARTED)
 	{
 		eat(me, &eat_count);
 		if (me->params->limit_to_eat && eat_count >= me->params->limit_to_eat)

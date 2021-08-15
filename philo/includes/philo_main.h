@@ -30,7 +30,7 @@ typedef struct s_data {
 	struct timeval		start_time;
 	pthread_mutex_t		print_mutex;
 	pthread_mutex_t		odd_mutex;
-	pthread_mutex_t		death_mutex;
+	uint8_t				is_death_happen;
 	pthread_mutex_t		*forks;
 
 }						t_data;
@@ -39,7 +39,7 @@ typedef struct s_philo {
 	pthread_t			thread;
 	struct timeval		last_eat_time;
 	int					index;
-	char				flag;
+	uint8_t				flag;
 	t_data				*params;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;

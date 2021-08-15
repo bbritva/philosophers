@@ -80,7 +80,7 @@ int	start_philos(t_data *data)
 	i = -1;
 	while (++i < data->philos_cnt)
 		pthread_join(philos[i]->thread, NULL);
-	if (data->full_cnt == data->limit_to_eat)
+	if (data->limit_to_eat && data->full_cnt == data->limit_to_eat)
 		printf("%-8ld:%s", delta_time(data->start_time), ALL_FULL);
 	free_philos(philos);
 	return (1);

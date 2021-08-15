@@ -21,10 +21,13 @@ void	*death(t_philo *philo)
 {
 	long	delta;
 
-//	pthread_mutex_lock(&philo->params->death_mutex);
-	pthread_mutex_lock(&philo->params->print_mutex);
-	delta = delta_time(philo->params->start_time);
-	printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, DEAD);
+	if (!philo->params->is_death_happen)
+	{
+		philo->params->is_death_happen = 1;
+		pthread_mutex_lock(&philo->params->print_mutex);
+		delta = delta_time(philo->params->start_time);
+		printf("%-8ld: Philo #%2d %s\n", delta, philo->index + 1, DEAD);
+	}
 	return (0);
 }
 
@@ -41,15 +44,11 @@ void	*philosopher(void *data)
 	pthread_detach(life);
 	while (1)
 	{
-		delta = delta_time(me->last_eat_time);
 		pthread_mutex_lock(&(me->death_mutex));
+		delta = delta_time(me->last_eat_time);
 		if (me->flag & STARTED && delta > me->params->death_time)
 			break ;
 		pthread_mutex_unlock(&(me->death_mutex));
 	}
-	put_message(me, FULL);
-	me->flag = me->flag | IS_FULL;
-	me->flag = me->flag & ~(STARTED);
-	me->params->full_cnt++;
-	return (NULL);
+	return (death(me));
 }
