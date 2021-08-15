@@ -3,9 +3,8 @@
 int	get_forks(t_philo *me)
 {
 	sem_wait(me->params->forks);
-	put_message(me, TAKE_FORK);
-	sem_wait(me->params->forks);
 	gettimeofday(&me->last_eat_time, NULL);
+	put_message(me, TAKE_FORK);
 	put_message(me, TAKE_FORK);
 	return (0);
 }
@@ -13,7 +12,6 @@ int	get_forks(t_philo *me)
 int	put_forks(t_philo *me)
 {
 	put_message(me, PUT_FORK);
-	sem_post(me->params->forks);
 	put_message(me, PUT_FORK);
 	sem_post(me->params->forks);
 	return (0);

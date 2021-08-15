@@ -11,7 +11,7 @@ int	init_philos(t_data *data, t_philo ***philos)
 	{
 		sem_unlink("forks");
 		sem_unlink("print");
-		data->forks = sem_open("forks", O_CREAT, 0666, data->philos_cnt);
+		data->forks = sem_open("forks", O_CREAT, 0666, data->philos_cnt / 2);
 		data->print_sem = sem_open("print", O_CREAT, 0666, 1);
 		i = -1;
 		while (++i < data->philos_cnt)
