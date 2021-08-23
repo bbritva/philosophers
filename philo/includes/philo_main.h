@@ -10,8 +10,8 @@
 
 # define IS_FULL 2
 # define STARTED 1
-# define TAKE_FORK "has taken fork"
-# define PUT_FORK "has put fork"
+# define TAKE_FORK "has taken a fork"
+# define PUT_FORK "has put a fork"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
@@ -26,12 +26,12 @@ typedef struct s_data {
 	int					sleep_time;
 	int					limit_to_eat;
 	int					full_cnt;
+	uint8_t				flag;
 	int					started_count;
 	struct timeval		start_time;
 	pthread_mutex_t		print_mutex;
 	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		odd_mutex;
-	uint8_t				is_death_happen;
 	pthread_mutex_t		*forks;
 
 }						t_data;

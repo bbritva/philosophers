@@ -24,10 +24,7 @@ int	put_forks(t_philo *me)
 
 int	eat(t_philo *me, int *eat_count)
 {
-	if ((me->index % 2))
-		get_forks(me, me->left_fork, me->right_fork);
-	else
-		get_forks(me, me->right_fork, me->left_fork);
+	get_forks(me, me->right_fork, me->left_fork);
 	put_message(me, EAT);
 	delay(me->params->eat_time);
 	put_forks(me);
