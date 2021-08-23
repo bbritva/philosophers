@@ -48,5 +48,7 @@ void	*philosopher(void *data)
 			break ;
 		pthread_mutex_unlock(&(me->death_mutex));
 	}
+	if (me->params->full_cnt)
+		return (NULL);
 	return (death(me));
 }

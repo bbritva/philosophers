@@ -84,7 +84,7 @@ int	start_philos(t_data *data)
 	data->flag = 1;
 	while (data->flag)
 		usleep(500);
-	if (data->limit_to_eat && data->full_cnt == data->limit_to_eat)
+	if (data->full_cnt == data->philos_cnt)
 		printf("%-8ld:%s", delta_time(data->start_time), ALL_FULL);
 	free_philos(philos);
 	return (1);

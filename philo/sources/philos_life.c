@@ -51,5 +51,7 @@ void	*life_cycle(void *data)
 	}
 	put_message(me, FULL);
 	me->params->full_cnt++;
+	if (me->params->full_cnt == me->params->philos_cnt)
+		me->params->flag = 0;
 	return (NULL);
 }
