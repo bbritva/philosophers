@@ -17,6 +17,7 @@ int	prepare_philo(t_philo *me, int *eat_count)
 		pthread_mutex_unlock(&(me->params->odd_mutex));
 	return (0);
 }
+
 void	*death(t_philo *philo)
 {
 	long	delta;
@@ -33,8 +34,8 @@ void	*philosopher(void *data)
 {
 	t_philo		*me;
 	int			eat_count;
-	pthread_t	life; 
-	long 		delta;
+	pthread_t	life;
+	long		delta;
 
 	me = (t_philo *)data;
 	prepare_philo(me, &eat_count);

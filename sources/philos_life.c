@@ -1,6 +1,5 @@
 #include "philo_main.h"
 
-
 int	get_forks(t_philo *me, pthread_mutex_t *first, pthread_mutex_t *second)
 {
 	pthread_mutex_lock(first);
